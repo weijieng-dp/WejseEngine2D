@@ -151,6 +151,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectPicking.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
     <ClCompile Include="WejseRenderer.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Registry.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="selectionComponent.h" />
     <ClInclude Include="shader_s.h" />
     <ClInclude Include="stb_image.h" />

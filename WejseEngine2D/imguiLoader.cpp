@@ -12,6 +12,9 @@
 #include "selectionComponent.h"
 #include "ComponentRegistry.h"
 
+
+#include <iostream>
+
 #include "RenderSystem.h"
 
 bool show_demo_window = true;
@@ -27,6 +30,7 @@ std::string selectedComponentstring;
 
 void InitializeImGui(GLFWwindow* window)
 {
+
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();

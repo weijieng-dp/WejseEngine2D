@@ -10,6 +10,10 @@
 #include "RenderSystem.h"
 #include "TransformSystem.h"
 
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
+
 
 #ifdef _DEBUG
 bool debug = true;
@@ -22,6 +26,27 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 int main()
 {
+
+	// Create a RapidJSON document object
+	rapidjson::Document document;
+	document.SetObject();  // Set the document type to an object
+
+	// Create an allocator for managing memory (required by RapidJSON)
+	rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
+
+	// Add some key-value pairs to the document
+	document.AddMember("name", "John Doe", allocator);
+	document.AddMember("age", 30, allocator);
+	document.AddMember("isStudent", false, allocator);
+
+	// Convert document to JSON string
+	rapidjson::StringBuffer buffer;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	document.Accept(writer);  // Serialize the document to the writer
+
+	// Output the resulting JSON string
+	std::cout << buffer.GetString() << std::endl;  // {"name":"John Doe","age":30,"isStudent":false}
+
 	// Initialize GLFW
 	if (!glfwInit())
 	{
