@@ -2,123 +2,135 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "imguiLoader.h"
+#include "ComponentLoader.h"
+#include "Registry.h"
+#include "WejseRenderer.h"
+
+#include "RenderSystem.h"
+#include "TransformSystem.h"
+
+
+#ifdef _DEBUG
+bool debug = true;
+#else
+bool debug = false;
+#endif 
+
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
-const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-
-
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-" FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\0";
 
 int main()
 {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	// Initialize GLFW
+	if (!glfwInit())
+	{
+		std::cout << "Failed to initialize GLFW" << std::endl;
+		return -1;
+	}
+
+	// Set OpenGL version
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	// Create window
+	window = glfwCreateWindow(ScreenWidth, Screenheight, "Wejse2D Game Engine", NULL, NULL);
+	if (window == NULL)
+	{
+		std::cout << "Failed to create GLFW window" << std::endl;
+		glfwTerminate();
+		return -1;
+	}
+
+	// Make context current for the window
+	glfwMakeContextCurrent(window);
+
+	// Load OpenGL functions using GLAD
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return -1;
+	}
+
+	// Set the viewport size
+	glViewport(0, 0, ScreenWidth, Screenheight);
+	glfwSwapInterval(1);
 
 
 
-    GLFWwindow* window = glfwCreateWindow(1900, 1200, "Wejse2D Game Engine", NULL, NULL);
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
+
+	if(debug)
+		InitializeImGui(window);
+
+	Registry& registry = Registry::instance();
+	
+
+	ComponentInitialise();
+	RenderInitialise();
 
 
+	// Main loop
+	while (!glfwWindowShouldClose(window))
+	{
+		glClear(GL_COLOR_BUFFER_BIT);
+		glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
+		if (!debug)
+		{
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
+			auto entitiesWithTransform = registry.getEntitiesWithComponent<RenderComponent>();
+			for (auto entity : entitiesWithTransform) 
+			{
 
-    glViewport(0, 0, 1900, 1200);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+				std::cout << "Entity with Transform" << entity << "\n";
+			}
+			UpdateTransform(registry);
+			RenderUpdate(registry);
+			// Update entities
+			//manager.UpdateEntities();
 
-    float vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.5f,  0.5f, 0.0f,
-     
-     -0.5f, 0.5f, 0.0f,
-     -0.5f, -0.5f, 0.0f,
-     0.5f, 0.5f, 0.0f,
-    };
+		}
+		else
+		{
+			// Start a new ImGui frame
+			UpdateImGui();
+			// Render ImGui interface
+			RenderImGui();
+			// Optionally, render to a framebuffer if necessary
+			bind_framebuffer(); // Comment this out if you are rendering to the default framebuffer
 
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+			glClear(GL_COLOR_BUFFER_BIT);
+			RenderUpdate(registry);
+			UpdateTransform(registry);
+			// Update entities
+			//manager.UpdateEntities();
 
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO);
-    // 1. bind Vertex Array Object
-    glBindVertexArray(VAO);
-    // 2. copy our vertices array in a buffer for OpenGL to use
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    // 3. then set our vertex attributes pointers
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+			// Unbind the framebuffer
+			unbind_framebuffer(); // Comment this out if rendering to the default framebuffer
+		}
+		// Poll events
+		glfwPollEvents();
 
+		// Since the window is hidden, we don't need to call glfwSwapBuffers(window)
+		// But you can try calling it temporarily to see if rendering shows up
+		glfwSwapBuffers(window); // Uncomment temporarily for debugging if needed
+	}
 
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
+	// Cleanup
+	//manager.FreeEntity();
+	registry.DestroyAllEntities();
+	RenderCleanUp();
+	glfwTerminate();
+	if (debug)
+		CleanupImGui();
 
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-
-    unsigned int shaderProgram;
-    shaderProgram = glCreateProgram();
-
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glVertexAttribPointer(0, 6, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-      
-
-    while (!glfwWindowShouldClose(window))
-    {
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        glDrawArrays(GL_TRIANGLES, 3, 6);
-
-    }
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-    glfwTerminate();
-    return 0;
+	return 0;
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(0, 0, width, height);
+	glViewport(0, 0, width, height);
 }
