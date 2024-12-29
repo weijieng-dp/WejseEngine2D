@@ -6,12 +6,12 @@
 
 struct TransformComponent 
 {
+    glm::vec3 translate = glm::vec3(-800 + (rand() % 1600), -450 + (rand() % 900), 0);
     float rotation = 90;
     glm::vec3 scale = glm::vec3(250, 250, 1);
     glm::vec3 rotate = glm::vec3(0, 0,1.0f);
     //float randomposX = -800 + (rand() % 1600);
     //float randomposY = -450 + (rand() % 900);
-    glm::vec3 translate = glm::vec3(-800 + (rand() % 1600), -450 + (rand() % 900), 0);
     glm::mat4 transform = glm::mat4(1.0f);
 
 };

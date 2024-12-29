@@ -12,6 +12,8 @@
 #include "selectionComponent.h"
 #include "ComponentRegistry.h"
 
+#include <filesystem>
+
 
 #include <iostream>
 
@@ -27,6 +29,7 @@ Registry& registry = Registry::instance();
 componentRegistry& Componentregistry = componentRegistry::instance();
 
 std::string selectedComponentstring;
+std::string entityName;
 
 void InitializeImGui(GLFWwindow* window)
 {
@@ -38,6 +41,7 @@ void InitializeImGui(GLFWwindow* window)
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+
 
 
 	ImGui::StyleColorsDark();
@@ -52,12 +56,16 @@ void InitializeImGui(GLFWwindow* window)
 	//InitialiseEntityPicking();
 	create_framebuffer();
 
+
+
 }
 
 
 void UpdateImGui()
 {
 	ImGuiIO& io = ImGui::GetIO();
+
+
 
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
@@ -88,22 +96,27 @@ void UpdateImGui()
 	// Start ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui::NewFrame();
+	ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
+
 }
 
 void RenderImGui()
 {
 
 	ImGuiIO& io = ImGui::GetIO();
+	io.DisplaySize = ImVec2(ScreenWidth, Screenheight);
 	// Render ImGui UI
 			// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
-	ImGui::Begin("My Scene", NULL, ImGuiWindowFlags_NoMove);
+	ImGui::Begin("My Scene");
 
 	const float window_width = ImGui::GetContentRegionAvail().x;
 	const float window_height = ImGui::GetContentRegionAvail().y;
 
+	Screenheight = window_height;
+	ScreenWidth = window_width;
 	// we rescale the framebuffer to the actual window size here and reset the glViewport 
 	rescale_framebuffer(window_width, window_height);
 	glViewport(0, 0, window_width, window_height);
@@ -111,8 +124,6 @@ void RenderImGui()
 	// we get the screen position of the window
 	ImVec2 pos = ImGui::GetCursorScreenPos();
 
-	// and here we can add our created texture as image to ImGui
-	// unfortunately we need to use the cast to void* or I didn't find another way tbh
 	ImGui::GetWindowDrawList()->AddImage(
 		(void*)texture_id,
 		ImVec2(pos.x, pos.y),
@@ -127,50 +138,65 @@ void RenderImGui()
 
 	//EntityManager& manager = EntityManager::GetInstance();
 
-
-
-	if (ImGui::TreeNode("Entities"))
+	ImGui::Begin("Content");
+	for (auto& p : std::filesystem::directory_iterator("Assets"))
 	{
-
-		auto entitywithselectComponent = registry.getEntitiesWithComponent<selectionComponent>();
-		for (auto entity : entitywithselectComponent)
+		std::string path = p.path().string();
+		if (p.is_directory())
 		{
-			//EncodeEntityID(manager.Entities[n]);
-
-
-			auto selectComponent = registry.getComponent<selectionComponent>(entity);
-
-			std::string entities = "entity" + std::to_string(entity);
-
-
-			if (ImGui::Selectable(entities.c_str(), selectComponent->selected))
+			if (ImGui::Button(path.c_str()))
 			{
 
+			}
+		}
+	}
+	ImGui::End();
+	ImGui::Begin("Entities");
 
-				if (!ImGui::GetIO().KeyCtrl)  // Clear selection if CTRL is not held
+
+	auto entitywithselectComponent = registry.getEntitiesWithComponent<selectionComponent>();
+	for (auto entity : entitywithselectComponent)
+	{
+		//EncodeEntityID(manager.Entities[n]);
+
+
+		auto selectComponent = registry.getComponent<selectionComponent>(entity);
+
+		std::string entities = registry.getEntityName(entity) ;
+
+
+		if (ImGui::Selectable(entities.c_str() , selectComponent->selected))
+		{
+
+			if (!ImGui::GetIO().KeyCtrl)  // Clear selection if CTRL is not held
+			{
+				// Deselect all entities when CTRL is not held
+				for (auto entity2 : entitywithselectComponent)
 				{
-					// Deselect all entities when CTRL is not held
-					for (auto entity2 : entitywithselectComponent)
-					{
-						auto selectedComponent = registry.getComponent<selectionComponent>(entity2);
-						selectedComponent->selected = false;
-					}
+					auto selectedComponent = registry.getComponent<selectionComponent>(entity2);
+					selectedComponent->selected = false;
 				}
-				// Toggle the selection state for the current entity
-				selectComponent->selected = !selectComponent->selected;
 			}
 
+			// Toggle the selection state for the current entity
+			selectComponent->selected = !selectComponent->selected;
+
 
 		}
 
-		if (ImGui::Button("Add Entities"))
-		{
-			auto entities = registry.createEntity();
-			registry.addComponent<TransformComponent>(entities, {});
-			Componentregistry.createComponent("Selection Component", entities);
-		}
-		ImGui::TreePop();
+
 	}
+
+	if (ImGui::Button("Add Entities"))
+	{
+		auto entities = registry.createEntity();
+		registry.addComponent<TransformComponent>(entities, {});
+		Componentregistry.createComponent("Selection Component", entities);
+	}
+
+
+
+	ImGui::End();
 
 	ImGui::Begin("Inspector");
 	auto entitywithtransformComponent = registry.getEntitiesWithComponents<TransformComponent, selectionComponent>();
@@ -179,13 +205,30 @@ void RenderImGui()
 		auto selectioncomponent = registry.getComponent<selectionComponent>(entity);
 		if (selectioncomponent->selected)
 		{
+
+
+			entityName = registry.getEntityName(entity);
+			// Resize the entity name to handle up to 128 characters (if necessary)
+			entityName.resize(128);
+
+			if (ImGui::InputText("##EntityName", &entityName[0], entityName.size()+1, ImGuiInputTextFlags_EnterReturnsTrue)) {
+				if (!entityName.empty()) {
+					entityName.resize(strlen(entityName.c_str()));
+					registry.setEntityName(entity, entityName);
+
+					// Optionally print the updated name for debugging
+					std::cout << "Updated Entity Name: " << registry.getEntityName(entity) << std::endl;
+
+					// Optionally reset entityName back to the registry value if you want to clear input after updating
+					entityName = registry.getEntityName(entity);  // Reset entity name after update
+				}
+			}
+
+
 			auto tranformcomponent = registry.getComponent<TransformComponent>(entity);
 			auto* rendercomponent = registry.getComponent<RenderComponent>(entity);
 
-			if (io.KeysDown[ImGuiKey_Delete])
-			{
-				registry.destroyEntity(entity);
-			}
+
 			ImGui::SetNextItemOpen(true);
 
 			if (ImGui::TreeNode("Component"))
@@ -253,7 +296,10 @@ void RenderImGui()
 				ImGui::TreePop();
 			}
 
-
+			if (io.KeysDown[ImGuiKey_Delete])
+			{
+				registry.destroyEntity(entity);
+			}
 		}
 	}
 

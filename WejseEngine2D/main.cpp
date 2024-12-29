@@ -6,6 +6,7 @@
 #include "ComponentLoader.h"
 #include "Registry.h"
 #include "WejseRenderer.h"
+#include "SceneManager.h"
 
 #include "RenderSystem.h"
 #include "TransformSystem.h"
@@ -27,25 +28,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 int main()
 {
 
-	// Create a RapidJSON document object
-	rapidjson::Document document;
-	document.SetObject();  // Set the document type to an object
-
-	// Create an allocator for managing memory (required by RapidJSON)
-	rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
-
-	// Add some key-value pairs to the document
-	document.AddMember("name", "John Doe", allocator);
-	document.AddMember("age", 30, allocator);
-	document.AddMember("isStudent", false, allocator);
-
-	// Convert document to JSON string
-	rapidjson::StringBuffer buffer;
-	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-	document.Accept(writer);  // Serialize the document to the writer
-
-	// Output the resulting JSON string
-	std::cout << buffer.GetString() << std::endl;  // {"name":"John Doe","age":30,"isStudent":false}
 
 	// Initialize GLFW
 	if (!glfwInit())
@@ -95,12 +77,14 @@ int main()
 	ComponentInitialise();
 	RenderInitialise();
 
+	SceneManager sceneManager;
 
+	sceneManager.LoadScene("Assets/Scenes/scene1.txt");
 	// Main loop
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
-		glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+		//glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
 		if (!debug)
@@ -126,6 +110,9 @@ int main()
 			RenderImGui();
 			// Optionally, render to a framebuffer if necessary
 			bind_framebuffer(); // Comment this out if you are rendering to the default framebuffer
+
+			if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+				sceneManager.SaveScene("Assets/Scenes/scene1.txt");
 
 			glClear(GL_COLOR_BUFFER_BIT);
 			RenderUpdate(registry);

@@ -1,7 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
-#include "stb_image.h"
+#include "SOIL/SOIL.h"
 #include <iostream>
 
 class texture
@@ -20,20 +20,39 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		// load and generate the texture
 		int width, height, nrChannels;
-		unsigned char* data = stbi_load(filePath, &width, &height, &nrChannels, 0);
-		if (data)
+		GLuint tex_ID = SOIL_load_OGL_texture(
+			filePath,
+			SOIL_LOAD_AUTO,
+			SOIL_CREATE_NEW_ID,
+			SOIL_FLAG_POWER_OF_TWO
+			| SOIL_FLAG_MIPMAPS
+			//| SOIL_FLAG_MULTIPLY_ALPHA
+			//| SOIL_FLAG_COMPRESS_TO_DXT
+			| SOIL_FLAG_DDS_LOAD_DIRECT
+			//| SOIL_FLAG_NTSC_SAFE_RGB
+			//| SOIL_FLAG_CoCg_Y
+			//| SOIL_FLAG_TEXTURE_RECTANGLE
+		);
+		if (tex_ID > 0)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
+			//	enable texturing
+			glEnable(GL_TEXTURE_2D);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			stbi_set_flip_vertically_on_load(true);
+			//glEnable( 0x84F5 );// enables texture rectangle
+			//  bind an OpenGL texture ID
+			ID = tex_ID;
+			//	report
+			std::cout << "the loaded texture ID was " << tex_ID << std::endl;
+			//std::cout << "the load time was " << 0.001f * time_me << " seconds (warning: low resolution timer)" << std::endl;
 		}
 		else
 		{
-			std::cout << "Failed to load texture: " << stbi_failure_reason() << std::endl;
+			//	loading of the texture failed...why?
+			glDisable(GL_TEXTURE_2D);
+			std::cout << "Texture loading failed: '" << SOIL_last_result() << "'" << std::endl;
 		}
-		stbi_image_free(data);
+		//stbi_image_free(data);
 	}
 
 	~texture()

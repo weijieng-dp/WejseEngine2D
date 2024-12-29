@@ -23,11 +23,20 @@ public:
         return entityRegistry.getAllEntity();
     }
 
+    void setEntityName(Entity ent, std::string name)
+    {
+        entityRegistry.setEntityName(ent, name);
+    }
+
+    std::string getEntityName(Entity ent)
+    {
+        return entityRegistry.getEntityName(ent);
+    }
 
     // Create a new entity
-    Entity createEntity() {
+    Entity createEntity(std::string name = "") {
         Entity entity = entityRegistry.createEntity();
-        entityRegistry.addEntity(entity);
+        entityRegistry.addEntity(entity,name);
         return entity;
     }
 
@@ -122,7 +131,6 @@ private:
 
     std::unordered_map<std::type_index, std::unique_ptr<IComponentStorage>> componentStorages;
 
-    std::unordered_set<Entity> allEntities;
 
     // Get or create storage for a specific component type
     template <typename Component>

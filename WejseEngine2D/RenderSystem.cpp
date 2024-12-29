@@ -1,12 +1,13 @@
 #include "RenderSystem.h"
 #include "WejseRenderer.h"
 #include "Registry.h"
+#include "Camera.h"
 
 unsigned int VAO;
 unsigned int EBO;
 unsigned int VBO;
 
-
+camera cam;
 
 void RenderInitialise()
 {
@@ -17,7 +18,10 @@ void RenderInitialise()
 
 void RenderUpdate(Registry& registry)
 {
-    glm::mat4 viewMatrix = glm::mat4(1.0);
+    if(glfwGetMouseButton(window,1) == GLFW_PRESS)
+        cam.processMovement();
+    
+    glm::mat4 viewMatrix = cam.getviewmatrix();
     glm::mat4 projectionMatrix = glm::ortho(-ScreenWidth / 2.0f, ScreenWidth / 2.0f, -Screenheight / 2.0f, Screenheight / 2.0f, -1.0f, 1.0f);
     // Retrieve all entities with a RenderComponent
     auto entitiesWithRender = registry.getEntitiesWithComponent<RenderComponent>();
@@ -42,7 +46,7 @@ void updateTexture(const std::string& newTexturePath, EntityRegistry::Entity ent
     Registry& registry = Registry::instance();
     auto rendercomp = registry.getComponent<RenderComponent>(entity);
 
-    rendercomp->tex = std::make_unique<texture>(("Assets/" + newTexturePath).c_str()); // Load the new texture
+    rendercomp->tex = std::make_unique<texture>((newTexturePath).c_str()); // Load the new texture
     rendercomp->TextureString = newTexturePath;
 }
 
