@@ -77,9 +77,7 @@ int main()
 	ComponentInitialise();
 	RenderInitialise();
 
-	SceneManager sceneManager;
 
-	sceneManager.LoadScene("Assets/Scenes/scene1.txt");
 	// Main loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -90,12 +88,7 @@ int main()
 		if (!debug)
 		{
 
-			auto entitiesWithTransform = registry.getEntitiesWithComponent<RenderComponent>();
-			for (auto entity : entitiesWithTransform) 
-			{
 
-				std::cout << "Entity with Transform" << entity << "\n";
-			}
 			UpdateTransform(registry);
 			RenderUpdate(registry);
 			// Update entities
@@ -109,19 +102,7 @@ int main()
 			// Render ImGui interface
 			RenderImGui();
 			// Optionally, render to a framebuffer if necessary
-			bind_framebuffer(); // Comment this out if you are rendering to the default framebuffer
-
-			if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-				sceneManager.SaveScene("Assets/Scenes/scene1.txt");
-
-			glClear(GL_COLOR_BUFFER_BIT);
-			RenderUpdate(registry);
-			UpdateTransform(registry);
-			// Update entities
-			//manager.UpdateEntities();
-
-			// Unbind the framebuffer
-			unbind_framebuffer(); // Comment this out if rendering to the default framebuffer
+		
 		}
 		// Poll events
 		glfwPollEvents();

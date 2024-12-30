@@ -40,11 +40,14 @@
     <Filter Include="Header Files\Camera">
       <UniqueIdentifier>{bfd91c21-024c-43d5-b159-e7152d287e91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SOIL">
-      <UniqueIdentifier>{c4321368-f0e5-438a-9a1e-a022e8bff30f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\SOIL">
       <UniqueIdentifier>{dceb724f-d6a0-44d8-8f5c-c22fa5bb2be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SOIL">
+      <UniqueIdentifier>{c4321368-f0e5-438a-9a1e-a022e8bff30f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EditorLayout">
+      <UniqueIdentifier>{762b5c9f-6acb-4b80-bdbc-61008749052e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +125,6 @@
     <ClInclude Include="WejseRenderer.h">
       <Filter>Header Files\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="imguiLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\imgui\imconfig.h">
       <Filter>Header Files\imgui</Filter>
     </ClInclude>
@@ -189,25 +189,40 @@
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\SOIL.h">
-      <Filter>SOIL</Filter>
+      <Filter>Header Files\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\stbi_DDS_aug_c.h">
-      <Filter>SOIL</Filter>
+      <Filter>Header Files\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\image_DXT.h">
-      <Filter>SOIL</Filter>
+      <Filter>Header Files\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\image_helper.h">
-      <Filter>SOIL</Filter>
+      <Filter>Header Files\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\stb_image_aug.h">
-      <Filter>SOIL</Filter>
+      <Filter>Header Files\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\stbi_DDS_aug.h">
-      <Filter>SOIL</Filter>
+      <Filter>Header Files\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imguiLoader.h">
+      <Filter>Header Files\EditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentBrowser.h">
+      <Filter>Header Files\EditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityPanel.h">
+      <Filter>Header Files\EditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorPanel.h">
+      <Filter>Header Files\EditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="ScenePanel.h">
+      <Filter>Header Files\EditorLayout</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
