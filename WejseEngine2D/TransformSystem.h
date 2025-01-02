@@ -2,7 +2,7 @@
 
 #include "Registry.h"
 #include "TransformComponent.h"
-#include "RenderComponent.h"
+#include "SpriteRenderComponent.h"
 #include "wejseRenderer.h"
 
 void UpdateTransform(Registry& registry);

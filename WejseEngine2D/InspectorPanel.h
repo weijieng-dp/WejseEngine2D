@@ -5,11 +5,12 @@
 #include "ComponentRegistry.h"
 
 #include "WejseRenderer.h"
-#include "RenderSystem.h"
+#include "SpriteRenderSystem.h"
 
 #include "selectionComponent.h"
 #include "TransformComponent.h"
-#include "RenderComponent.h"
+#include "SpriteRenderComponent.h"
+#include "meshRenderComponent.h"
 
 class InspectorPanel
 {
@@ -60,8 +61,8 @@ public:
 
 
 				auto tranformcomponent = registry.getComponent<TransformComponent>(entity);
-				auto* rendercomponent = registry.getComponent<RenderComponent>(entity);
-
+				auto* spriteRenderComponent = registry.getComponent<SpriteRenderComponent>(entity);
+				auto* meshRenderComponent = registry.getComponent<MeshRenderComponent>(entity);
 
 				ImGui::SetNextItemOpen(true);
 
@@ -81,30 +82,94 @@ public:
 					tranformcomponent->scale = glm::vec3(scaleValue[0], scaleValue[1], 1);
 
 
-					if (rendercomponent)
+					if (spriteRenderComponent)
 					{
 						ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-						ImGui::SeparatorText("Render Component");
+						ImGui::SeparatorText("Sprite Render Component");
+
+						float uColor[3] = { spriteRenderComponent->color[0],spriteRenderComponent->color[1] ,spriteRenderComponent->color[2] };
+
+						if(ImGui::ColorEdit3("Vertex Color", uColor)) {
+							// Color has changed; you can use it to update the OpenGL buffer or shaders
+							spriteRenderComponent->color[0] = uColor[0];
+							spriteRenderComponent->color[1] = uColor[1];
+							spriteRenderComponent->color[2] = uColor[2];
+						}
+
+
 
 						// Ensure the string has enough space for input
-						rendercomponent->TextureString.resize(128); // Adjust size as needed
+						spriteRenderComponent->TextureString.resize(128); // Adjust size as needed
+
 
 						// Text input field
-						if (ImGui::InputText("Input Text", &rendercomponent->TextureString[0], rendercomponent->TextureString.size() + 1)) {
+						if (ImGui::InputText("Input Text", &spriteRenderComponent->TextureString[0], spriteRenderComponent->TextureString.size() + 1)) {
 							// Optional: Resize back to the actual length
-							rendercomponent->TextureString.resize(strlen(rendercomponent->TextureString.c_str()));
+							spriteRenderComponent->TextureString.resize(strlen(spriteRenderComponent->TextureString.c_str()));
 						}
+
+
+						ImVec2 size = ImGui::GetItemRectSize();
+						ImGui::InvisibleButton("DropZone", ImVec2(size.x, size.y));
+						if (ImGui::BeginDragDropTarget()) {
+							if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+								path = static_cast<const char*>(payload->Data);
+								if (path)
+								{
+									updateTexture(path, entity);
+									spriteRenderComponent->TextureString = path;
+								}
+							}
+							ImGui::EndDragDropTarget();
+						}
+
 
 						// Show the current value of the input
 						if (ImGui::Button("Change Texture"))
 						{
-							updateTexture(rendercomponent->TextureString, entity);
+							updateTexture(spriteRenderComponent->TextureString, entity);
 						}
 						if (ImGui::Button("Delete Component")) {
-							registry.removeComponent<RenderComponent>(entity);
+							registry.removeComponent<SpriteRenderComponent>(entity);
 						}
 					}
+
+					if (meshRenderComponent)
+					{
+
+						ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+						ImGui::SeparatorText("Mesh Render Component");
+
+						static const char* items[] = { "square", "triangle", "circle","line"};
+						static std::string currentItem = meshRenderComponent->shapeName;
+
+						if (ImGui::BeginCombo("mesh", currentItem.c_str())) {
+							for (int i = 0; i < IM_ARRAYSIZE(items); i++) {
+								bool isSelected = (currentItem == items[i]);
+								if (ImGui::Selectable(items[i], isSelected)) {
+									meshRenderComponent->shapeName = items[i];
+									currentItem = items[i];
+								}
+							}
+							ImGui::EndCombo();
+						}
+
+						float uColor[3] = { meshRenderComponent->color[0],meshRenderComponent->color[1] ,meshRenderComponent->color[2] };
+
+						if (ImGui::ColorEdit3("Vertex Color", uColor)) {
+							// Color has changed; you can use it to update the OpenGL buffer or shaders
+							meshRenderComponent->color[0] = uColor[0];
+							meshRenderComponent->color[1] = uColor[1];
+							meshRenderComponent->color[2] = uColor[2];
+						}
+
+						if (ImGui::Button("Delete Component")) {
+							registry.removeComponent<MeshRenderComponent>(entity);
+						}
+					}
+
 
 					ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
@@ -143,4 +208,5 @@ private:
 
 	std::string entityName;
 	std::string selectedComponentstring;
+	const char* path;
 };

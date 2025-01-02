@@ -1,19 +1,18 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
 #include <iostream>
 
 #include "imguiLoader.h"
 #include "ComponentLoader.h"
 #include "Registry.h"
-#include "WejseRenderer.h"
 #include "SceneManager.h"
+#include "WejseRenderer.h"
 
-#include "RenderSystem.h"
+#include "SpriteRenderSystem.h"
 #include "TransformSystem.h"
 
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
+
 
 
 #ifdef _DEBUG
@@ -65,11 +64,13 @@ int main()
 	glViewport(0, 0, ScreenWidth, Screenheight);
 	glfwSwapInterval(1);
 
-
+	SceneManager sceneManager;
 
 
 	if(debug)
 		InitializeImGui(window);
+	else
+		sceneManager.LoadScene("Assets/Scenes/scene1.txt");
 
 	Registry& registry = Registry::instance();
 	
@@ -78,17 +79,17 @@ int main()
 	RenderInitialise();
 
 
+
 	// Main loop
 	while (!glfwWindowShouldClose(window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
 		//glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
 		if (!debug)
 		{
 
-
+			glClear(GL_COLOR_BUFFER_BIT);
 			UpdateTransform(registry);
 			RenderUpdate(registry);
 			// Update entities

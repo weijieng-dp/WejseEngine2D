@@ -3,8 +3,9 @@
 #include "Registry.h"
 
 #include "TransformComponent.h"
-#include "RenderComponent.h"
+#include "SpriteRenderComponent.h"
 #include "selectionComponent.h"
+#include "meshRenderComponent.h"
 
 
 
@@ -21,10 +22,10 @@ inline void ComponentInitialise()
 			registry.addComponent<TransformComponent>(entity, {});
 		});
 
-	ComponentRegistry.registerComponent<RenderComponent>(
-		"Render Component",
+	ComponentRegistry.registerComponent<SpriteRenderComponent>(
+		"Sprite Render Component",
 		[&registry](EntityRegistry::Entity entity) {
-			registry.addComponent<RenderComponent>(entity, std::move(RenderComponent("shader/shader.vs", "shader/shader.fs", "Assets/PlanetTexture.png")));
+			registry.addComponent<SpriteRenderComponent>(entity, std::move(SpriteRenderComponent("shader/shader.vs", "shader/shader.fs", "Assets/PlanetTexture.png")));
 		});
 
 
@@ -32,6 +33,12 @@ inline void ComponentInitialise()
 		"Selection Component",
 		[&registry](EntityRegistry::Entity entity) {
 			registry.addComponent<selectionComponent>(entity, {false});
+		});
+
+	ComponentRegistry.registerComponent<MeshRenderComponent>(
+		"Mesh Render Component",
+		[&registry](EntityRegistry::Entity entity) {
+			registry.addComponent<MeshRenderComponent>(entity, std::move(MeshRenderComponent("shader/shader.vs", "shader/shader.fs")));
 		});
 }
 

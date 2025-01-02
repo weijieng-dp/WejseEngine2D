@@ -5,12 +5,8 @@
 #include "imguiLoader.h"
 
 
-#include "SceneManager.h"
 
-#include "ContentBrowser.h"
-#include "EntityPanel.h"
-#include "InspectorPanel.h"
-#include "ScenePanel.h"
+
 
 
 bool show_demo_window = true;
@@ -18,13 +14,14 @@ bool show_demo_window = true;
 
 Registry& registry = Registry::instance();
 
-SceneManager sceneManager;
 
 
 ContentBroswer contentBrowser;
 EntityPanel entityPanel;
 InspectorPanel inspectorPanel;
-ScenePanel scenePanel , gameScene;
+ScenePanel scenePanel;
+
+MeshRenderSystem meshRenderSystem;
 
 void InitializeImGui(GLFWwindow* window)
 {
@@ -50,9 +47,7 @@ void InitializeImGui(GLFWwindow* window)
 	ImGui_ImplOpenGL3_Init();
 	//InitialiseEntityPicking();
 	scenePanel.initialise();
-	gameScene.initialise();
-	sceneManager.LoadScene("Assets/Scenes/scene1.txt");
-
+	meshRenderSystem.meshRenderInitialisation();
 
 }
 
@@ -74,7 +69,7 @@ void UpdateImGui()
 	io.DeltaTime = WejseGetDT();
 
 	inspectorPanel.update();
-
+	scenePanel.update();
 
 	//io.DisplaySize = ImVec2(
 	//	static_cast<float>(1900),   // Width of the window
@@ -105,16 +100,17 @@ void RenderImGui()
 	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
 
 	//EntityManager& manager = EntityManager::GetInstance();
-	gameScene.render("game Scene");
 	scenePanel.render("Scene Panel");
 
+
 	contentBrowser.render();
+
 
 	entityPanel.render();
 
 	inspectorPanel.render();
 
-	
+
 
 
 	ImGui::End();
@@ -142,11 +138,11 @@ void RenderImGui()
 
 	scenePanel.bind_framebuffer(); // Comment this out if you are rendering to the default framebuffer
 
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-		sceneManager.SaveScene("Assets/Scenes/scene1.txt");
+
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	RenderUpdate(registry);
+	meshRenderSystem.meshRenderRender();
 	UpdateTransform(registry);
 	// Update entities
 	//manager.UpdateEntities();
@@ -154,13 +150,7 @@ void RenderImGui()
 	// Unbind the framebuffer
 	scenePanel.unbind_framebuffer(); // Comment this out if rendering to the default framebuffer
 
-	gameScene.bind_framebuffer();
 
-	glClear(GL_COLOR_BUFFER_BIT);
-	RenderUpdate(registry);
-	UpdateTransform(registry);
-
-	gameScene.unbind_framebuffer();
 }
 
 

@@ -1,6 +1,6 @@
 #pragma once
-#include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include "SOIL/SOIL.h"
 #include <iostream>
 
@@ -8,6 +8,7 @@ class texture
 {
 private :
 	unsigned int ID;
+	bool hastexture;
 public:
 	texture(const char* filePath) 
 	{
@@ -42,6 +43,7 @@ public:
 			//glEnable( 0x84F5 );// enables texture rectangle
 			//  bind an OpenGL texture ID
 			ID = tex_ID;
+			hastexture = true;
 			//	report
 			std::cout << "the loaded texture ID was " << tex_ID << std::endl;
 			//std::cout << "the load time was " << 0.001f * time_me << " seconds (warning: low resolution timer)" << std::endl;
@@ -49,6 +51,8 @@ public:
 		else
 		{
 			//	loading of the texture failed...why?
+			hastexture = false;
+
 			glDisable(GL_TEXTURE_2D);
 			std::cout << "Texture loading failed: '" << SOIL_last_result() << "'" << std::endl;
 		}
@@ -64,5 +68,10 @@ public:
 	{
 		glBindTexture(GL_TEXTURE_2D, ID);
 
+	}
+
+	bool isValid()
+	{
+		return hastexture;
 	}
 };

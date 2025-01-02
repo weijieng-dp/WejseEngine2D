@@ -93,9 +93,6 @@
     <ClCompile Include="TransformSystem.cpp">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\include\SOIL\SOIL.c">
       <Filter>Source Files\SOIL</Filter>
     </ClCompile>
@@ -111,12 +108,15 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MeshRenderSystem.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component.h">
       <Filter>Header Files\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="RenderComponent.h">
+    <ClInclude Include="SpriteRenderComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
@@ -155,7 +155,7 @@
     <ClInclude Include="ObjectPicking.h">
       <Filter>Header Files\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="RenderSystem.h">
+    <ClInclude Include="SpriteRenderSystem.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="EntityRegistry.h">
@@ -181,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="texture_s.h">
       <Filter>Header Files\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Camera</Filter>
@@ -223,6 +220,12 @@
     </ClInclude>
     <ClInclude Include="ScenePanel.h">
       <Filter>Header Files\EditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="meshRenderComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderSystem.h">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

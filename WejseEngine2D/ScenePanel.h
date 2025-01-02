@@ -1,6 +1,8 @@
 #pragma once
 #include "WejseRenderer.h"
 #include "imgui.h"
+#include "SceneManager.h"
+
 
 class ScenePanel
 {
@@ -12,7 +14,13 @@ public:
 
 	void update()
 	{
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+		{
+			std::cout << savepath << "\n";
 
+			sceneManager.SaveScene(savepath.c_str());
+
+		}
 	}
 
 	void render(std::string SceneName)
@@ -38,6 +46,20 @@ public:
 			ImVec2(0, 1),
 			ImVec2(1, 0)
 		);
+
+
+		ImGui::InvisibleButton("DropZone", ImVec2(ScreenWidth, Screenheight));
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+				path = static_cast<const char*>(payload->Data);
+				if (path) {
+					sceneManager.LoadScene(path);
+					savepath = path;
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 
 		ImGui::End();
 
@@ -107,5 +129,7 @@ private:
 	unsigned int RBO;
 	unsigned int texture_id;
 
-
+	SceneManager sceneManager;
+	const char* path;
+	std::string savepath;
 };

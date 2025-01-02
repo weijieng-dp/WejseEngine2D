@@ -11,8 +11,11 @@
 
 #include "selectionComponent.h"
 #include "TransformComponent.h"
-#include "RenderComponent.h"
+#include "SpriteRenderComponent.h"
+#include "meshRenderComponent.h"
 #include "ComponentRegistry.h"
+
+#include "SpriteRenderSystem.h"
 
 
 #include <glm/glm.hpp>
@@ -25,6 +28,11 @@ class SceneManager
 {
 public:
 	SceneManager() : allocator(doc.GetAllocator()) {}
+
+	void createScene()
+	{
+
+	}
 
 	void SaveScene(const char* filepath)
 	{
@@ -69,12 +77,16 @@ public:
 		}
 
 
+
+		registry.DestroyAllEntities();
+				
 		Deserialize(doc2["entities"]);
 	}
 
 	Value Serialize()
 	{
 		Value entitiesArr(kArrayType);
+
 
 		auto entities = registry.getAllEntity();
 		for (auto entity : entities)
@@ -100,7 +112,7 @@ public:
 				entityJson.AddMember("Transform", transformJson, allocator);
 			}
 
-			auto* renderer = registry.getComponent<RenderComponent>(entity);
+			auto* renderer = registry.getComponent<SpriteRenderComponent>(entity);
 
 			if (renderer)
 			{
@@ -108,9 +120,27 @@ public:
 				rendererJson.AddMember("shaderVertexPath", "shader/shader.vs", allocator);
 				rendererJson.AddMember("shaderfragmentPath", "shader/shader.fs", allocator);
 				rendererJson.AddMember("texturePath", Value((renderer->TextureString).c_str(), allocator), allocator);
+				rendererJson.AddMember("colorX",renderer->color[0],allocator);
+				rendererJson.AddMember("colorY", renderer->color[1],allocator);
+				rendererJson.AddMember("colorZ", renderer->color[2],allocator);
 
 
 				entityJson.AddMember("Renderer", rendererJson, allocator);
+			}
+
+			auto* meshRenderer = registry.getComponent<MeshRenderComponent>(entity);
+
+			if (meshRenderer)
+			{
+				Value meshrendererJson(kObjectType);
+
+				meshrendererJson.AddMember("shapeName", Value((meshRenderer->shapeName).c_str(), allocator), allocator);
+				meshrendererJson.AddMember("colorX", meshRenderer->color[0], allocator);
+				meshrendererJson.AddMember("colorY", meshRenderer->color[1], allocator);
+				meshrendererJson.AddMember("colorZ", meshRenderer->color[2], allocator);
+
+				entityJson.AddMember("meshRenderer", meshrendererJson, allocator);
+
 			}
 
 			entitiesArr.PushBack(entityJson, allocator);
@@ -145,23 +175,33 @@ public:
 
 				registry.addComponent<TransformComponent>(ent, transform);
 			}
-			else
+
+			// Deserialize SpriteRenderComponent
+			if (entityJson.HasMember("meshRenderer") && entityJson["meshRenderer"].IsObject())
 			{
-				std::cerr << "Error: Missing 'Transform' in entity: " << entityJson["name"].GetString() << std::endl;
+				const auto& meshrendererJson = entityJson["meshRenderer"];
+				MeshRenderComponent meshrenderComp = MeshRenderComponent(
+					"shader/shader.vs",
+					"shader/shader.fs",
+					glm::vec3(meshrendererJson["colorX"].GetFloat(), meshrendererJson["colorY"].GetFloat(), meshrendererJson["colorZ"].GetFloat()),
+					meshrendererJson["shapeName"].GetString());
+
+				registry.addComponent<MeshRenderComponent>(ent, std::move(meshrenderComp));
+
 			}
 
-			// Deserialize RenderComponent
 			if (entityJson.HasMember("Renderer") && entityJson["Renderer"].IsObject())
 			{
 				const auto& rendererJson = entityJson["Renderer"];
-
-				registry.addComponent<RenderComponent>(ent, std::move(RenderComponent(
+				SpriteRenderComponent renderComp = SpriteRenderComponent(
 					rendererJson["shaderVertexPath"].GetString(),
 					rendererJson["shaderfragmentPath"].GetString(),
-					rendererJson["texturePath"].GetString()
-				)));
+					rendererJson["texturePath"].GetString(),
+					glm::vec3(rendererJson["colorX"].GetFloat(), rendererJson["colorY"].GetFloat(), rendererJson["colorZ"].GetFloat()));
 
+				registry.addComponent<SpriteRenderComponent>(ent, std::move(renderComp));
 
+				updateTexture(rendererJson["texturePath"].GetString(), ent);
 			}
 		}
 	}
