@@ -11,7 +11,9 @@
 
 extern float ScreenWidth;
 extern float Screenheight;
+
 extern GLFWwindow* window;
+extern bool debug;
 
 static GLuint QuadVAO,QuadVBO;
 static GLuint TriVAO, TriVBO;

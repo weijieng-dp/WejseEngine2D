@@ -15,11 +15,7 @@
 
 
 
-#ifdef _DEBUG
-bool debug = true;
-#else
-bool debug = false;
-#endif 
+
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

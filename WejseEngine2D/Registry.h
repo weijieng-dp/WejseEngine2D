@@ -131,7 +131,6 @@ private:
 
     std::unordered_map<std::type_index, std::unique_ptr<IComponentStorage>> componentStorages;
 
-
     // Get or create storage for a specific component type
     template <typename Component>
     ComponentStorage<Component>* getStorage() {
@@ -141,4 +140,5 @@ private:
         }
         return static_cast<ComponentStorage<Component>*>(componentStorages[type].get());
     }
+   
 };

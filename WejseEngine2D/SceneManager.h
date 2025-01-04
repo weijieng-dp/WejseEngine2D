@@ -13,9 +13,12 @@
 #include "TransformComponent.h"
 #include "SpriteRenderComponent.h"
 #include "meshRenderComponent.h"
+#include "CameraComponent.h"
 #include "ComponentRegistry.h"
 
 #include "SpriteRenderSystem.h"
+
+#include "rttr/type.h"
 
 
 #include <glm/glm.hpp>
@@ -79,9 +82,86 @@ public:
 
 
 		registry.DestroyAllEntities();
-				
+
 		Deserialize(doc2["entities"]);
 	}
+
+
+
+
+	template <typename T>
+	void DynamicSerializer( rapidjson::Value& entJson, EntityRegistry::Entity ent) {
+		auto comp = registry.getComponent<T>(ent); // Assumes `registry` is accessible
+
+		if (comp) 
+		{
+			Value compJson(kObjectType);
+
+
+			rttr::type obj_type = rttr::type::get(comp); // Get type information for the component
+
+
+			// Iterate through the object's properties
+			for (auto& prop : obj_type.get_properties()) 
+			{
+				const std::string prop_name = prop.get_name().to_string();
+				auto value = prop.get_value(comp); // Use *comp since `comp` is a pointer
+
+				if (value.is_type<int>()) 
+				{
+				
+					int actualValue = value.get_value<int>();
+
+					compJson.AddMember(
+						rapidjson::Value(prop_name.c_str(), allocator),
+						Value(actualValue),  // Directly using the int value
+						allocator
+					);
+				}
+				else if (value.is_type<glm::vec3>()) {
+					const glm::vec3 vec = value.get_value<glm::vec3>();
+
+					// Create a JSON array
+					rapidjson::Value jsonArray(rapidjson::kArrayType);
+					jsonArray.PushBack(vec[0], allocator); // Add x-component
+					jsonArray.PushBack(vec[1], allocator); // Add y-component
+					jsonArray.PushBack(vec[2], allocator); // Add z-component
+
+					// Add the array to the JSON object
+					compJson.AddMember(
+						rapidjson::Value(prop_name.c_str(), allocator),
+						jsonArray,
+						allocator
+					);
+				}
+				else if (value.is_type<std::string>()) 
+				{
+					compJson.AddMember(
+						rapidjson::Value(prop_name.c_str(), allocator),
+						rapidjson::Value(value.get_value<std::string>().c_str(), allocator),
+						allocator
+					);
+				}
+				else if (value.is_type<float>()) 
+				{
+					float  actualValue = value.get_value<float>();
+					compJson.AddMember(
+						rapidjson::Value(prop_name.c_str(), allocator),
+						Value(actualValue),  // Directly using the int value
+						allocator
+					);
+				}
+			}
+
+			// Add the component JSON object to the main array
+			entJson.AddMember(
+				rapidjson::Value(obj_type.get_name().to_string().c_str(), allocator),
+				compJson,
+				allocator
+			);
+		}
+	}
+
 
 	Value Serialize()
 	{
@@ -92,62 +172,160 @@ public:
 		for (auto entity : entities)
 		{
 			Value entityJson(kObjectType);
-
 			entityJson.AddMember("name", Value(registry.getEntityName(entity).c_str(), allocator), allocator);
 
+			DynamicSerializer<TransformComponent>(entityJson, entity);
+			DynamicSerializer<SpriteRenderComponent>(entityJson, entity);
+			DynamicSerializer<MeshRenderComponent>(entityJson, entity);
+			DynamicSerializer<CameraComponent>(entityJson, entity);
 
-			auto* transform = registry.getComponent<TransformComponent>(entity);
-
-			if (transform)
-			{
-				Value transformJson(kObjectType);
-				transformJson.AddMember("posX", transform->translate.x, allocator);
-				transformJson.AddMember("posY", transform->translate.y, allocator);
-
-				transformJson.AddMember("rotation", transform->rotation, allocator);
-
-				transformJson.AddMember("scaleX", transform->scale.x, allocator);
-				transformJson.AddMember("scaleY", transform->scale.y, allocator);
-
-				entityJson.AddMember("Transform", transformJson, allocator);
-			}
-
-			auto* renderer = registry.getComponent<SpriteRenderComponent>(entity);
-
-			if (renderer)
-			{
-				Value rendererJson(kObjectType);
-				rendererJson.AddMember("shaderVertexPath", "shader/shader.vs", allocator);
-				rendererJson.AddMember("shaderfragmentPath", "shader/shader.fs", allocator);
-				rendererJson.AddMember("texturePath", Value((renderer->TextureString).c_str(), allocator), allocator);
-				rendererJson.AddMember("colorX",renderer->color[0],allocator);
-				rendererJson.AddMember("colorY", renderer->color[1],allocator);
-				rendererJson.AddMember("colorZ", renderer->color[2],allocator);
-
-
-				entityJson.AddMember("Renderer", rendererJson, allocator);
-			}
-
-			auto* meshRenderer = registry.getComponent<MeshRenderComponent>(entity);
-
-			if (meshRenderer)
-			{
-				Value meshrendererJson(kObjectType);
-
-				meshrendererJson.AddMember("shapeName", Value((meshRenderer->shapeName).c_str(), allocator), allocator);
-				meshrendererJson.AddMember("colorX", meshRenderer->color[0], allocator);
-				meshrendererJson.AddMember("colorY", meshRenderer->color[1], allocator);
-				meshrendererJson.AddMember("colorZ", meshRenderer->color[2], allocator);
-
-				entityJson.AddMember("meshRenderer", meshrendererJson, allocator);
-
-			}
+		
 
 			entitiesArr.PushBack(entityJson, allocator);
 		}
 		return entitiesArr;
 
 	}
+
+
+	template <typename T>
+	void DynamicDeserializer(const rapidjson::Value& entJson, EntityRegistry::Entity ent) {
+
+		if (typeid(T) == typeid( MeshRenderComponent)) {
+			if (entJson.HasMember("Mesh Render Component*") && entJson["Mesh Render Component*"].IsObject()) {
+				const auto& meshrendererJson = entJson["Mesh Render Component*"];
+
+				// Validate "color"
+				glm::vec3 color(1.0f, 1.0f, 1.0f); // Default value
+				if (meshrendererJson.HasMember("color") && meshrendererJson["color"].IsArray() && meshrendererJson["color"].Size() == 3) {
+					const auto& colorArray = meshrendererJson["color"];
+					if (colorArray[0].IsFloat() && colorArray[1].IsFloat() && colorArray[2].IsFloat()) {
+						color = glm::vec3(
+							colorArray[0].GetFloat(),
+							colorArray[1].GetFloat(),
+							colorArray[2].GetFloat()
+						);
+					}
+				}
+
+				// Validate "shape"
+				std::string shape = meshrendererJson.HasMember("shape") && meshrendererJson["shape"].IsString()
+					? meshrendererJson["shape"].GetString()
+					: "square";
+
+				// Create component and add to registry
+				MeshRenderComponent meshrenderComp("shader/shader.vs", "shader/shader.fs", color, shape);
+				registry.addComponent<MeshRenderComponent>(ent, std::move(meshrenderComp));
+			}
+			return;
+		}
+
+		if (typeid(T) == typeid(SpriteRenderComponent)) {
+			if (entJson.HasMember("Sprite Render Component*") && entJson["Sprite Render Component*"].IsObject()) {
+				const auto& SpriterendererJson = entJson["Sprite Render Component*"];
+
+				// Validate "color"
+				glm::vec3 color(1.0f, 1.0f, 1.0f); // Default value
+				if (SpriterendererJson.HasMember("color") && SpriterendererJson["color"].IsArray() && SpriterendererJson["color"].Size() == 3) {
+					const auto& colorArray = SpriterendererJson["color"];
+					if (colorArray[0].IsFloat() && colorArray[1].IsFloat() && colorArray[2].IsFloat()) {
+						color = glm::vec3(
+							colorArray[0].GetFloat(),
+							colorArray[1].GetFloat(),
+							colorArray[2].GetFloat()
+						);
+					}
+				}
+
+				// Validate "texture"
+				std::string texture = SpriterendererJson.HasMember("Texture") && SpriterendererJson["Texture"].IsString()
+					? SpriterendererJson["Texture"].GetString()
+					: "Assets/PlanetTexture.png";
+
+				SpriteRenderComponent spriterenderComp(
+					"shader/shader.vs",
+					"shader/shader.fs",
+					texture,
+					color
+				);
+				
+				registry.addComponent<SpriteRenderComponent>(ent, std::move(spriterenderComp));
+				//updateTexture(texture, ent);
+			}
+			return;
+		}
+
+		auto comp = registry.getComponent<T>(ent);
+		rttr::type obj_type = rttr::type::get(comp);
+
+
+		if (!entJson.HasMember(obj_type.get_name().to_string().c_str()) || !entJson[obj_type.get_name().to_string().c_str()].IsObject())
+		{
+			return;
+		}
+
+		// Check if the component exists or create it
+		if (!comp) {
+			 registry.addComponent<T>(ent, {}); // Assumes `addComponent` exists
+			 comp = registry.getComponent<T>(ent);
+
+		}
+		// Get type information for the component
+
+
+		auto properties = obj_type.get_properties();
+
+		if (properties.empty()) {
+			// Skip deserialization for components without properties
+			return;
+		}
+
+		// Iterate through the JSON object
+		
+		for (auto& member : entJson[obj_type.get_name().to_string().c_str()].GetObject()) {
+
+			const std::string prop_name = member.name.GetString();
+			const rapidjson::Value& prop_value = member.value;
+
+			// Find the property by name in the component type
+			rttr::property prop = obj_type.get_property(prop_name);
+			if (!prop.is_valid()) {
+				std::cerr << "Unknown property: " << prop_name << std::endl;
+				continue;
+			}
+
+			// Set the property value based on its type
+			if (prop.get_type() == rttr::type::get<int>()) {
+				if (prop_value.IsInt()) {
+					prop.set_value(comp, prop_value.GetInt());
+				}
+			}
+			else if (prop.get_type() == rttr::type::get<float>()) {
+				if (prop_value.IsFloat()) {
+					prop.set_value(comp, prop_value.GetFloat());
+				}
+			}
+			else if (prop.get_type() == rttr::type::get<std::string>()) {
+				if (prop_value.IsString()) {
+					prop.set_value(comp, std::string(prop_value.GetString()));
+				}
+			}
+			else if (prop.get_type() == rttr::type::get<glm::vec3>()) {
+				if (prop_value.IsArray() && prop_value.Size() == 3) {
+					glm::vec3 vec(
+						prop_value[0].GetFloat(),
+						prop_value[1].GetFloat(),
+						prop_value[2].GetFloat()
+					);
+					prop.set_value(comp, vec);
+				}
+			}
+			else {
+				std::cerr << "Unsupported property type: " << prop_name << std::endl;
+			}
+		}
+	}
+
 
 	void Deserialize(const Value& entities)
 	{
@@ -162,47 +340,12 @@ public:
 			auto ent = registry.createEntity(entityJson["name"].GetString());
 
 			registry.addComponent<selectionComponent>(ent, {});
+			
+			DynamicDeserializer<TransformComponent>(entityJson,ent);
+			DynamicDeserializer<MeshRenderComponent>(entityJson, ent);
+			DynamicDeserializer<SpriteRenderComponent>(entityJson, ent);
+			DynamicDeserializer<CameraComponent>(entityJson, ent);
 
-			if (entityJson.HasMember("Transform") && entityJson["Transform"].IsObject())
-			{
-				const auto& transformJson = entityJson["Transform"];
-				TransformComponent transform;
-				transform.translate.x = transformJson["posX"].GetFloat();
-				transform.translate.y = transformJson["posY"].GetFloat();
-				transform.rotation = transformJson["rotation"].GetFloat();
-				transform.scale.x = transformJson["scaleX"].GetFloat();
-				transform.scale.y = transformJson["scaleY"].GetFloat();
-
-				registry.addComponent<TransformComponent>(ent, transform);
-			}
-
-			// Deserialize SpriteRenderComponent
-			if (entityJson.HasMember("meshRenderer") && entityJson["meshRenderer"].IsObject())
-			{
-				const auto& meshrendererJson = entityJson["meshRenderer"];
-				MeshRenderComponent meshrenderComp = MeshRenderComponent(
-					"shader/shader.vs",
-					"shader/shader.fs",
-					glm::vec3(meshrendererJson["colorX"].GetFloat(), meshrendererJson["colorY"].GetFloat(), meshrendererJson["colorZ"].GetFloat()),
-					meshrendererJson["shapeName"].GetString());
-
-				registry.addComponent<MeshRenderComponent>(ent, std::move(meshrenderComp));
-
-			}
-
-			if (entityJson.HasMember("Renderer") && entityJson["Renderer"].IsObject())
-			{
-				const auto& rendererJson = entityJson["Renderer"];
-				SpriteRenderComponent renderComp = SpriteRenderComponent(
-					rendererJson["shaderVertexPath"].GetString(),
-					rendererJson["shaderfragmentPath"].GetString(),
-					rendererJson["texturePath"].GetString(),
-					glm::vec3(rendererJson["colorX"].GetFloat(), rendererJson["colorY"].GetFloat(), rendererJson["colorZ"].GetFloat()));
-
-				registry.addComponent<SpriteRenderComponent>(ent, std::move(renderComp));
-
-				updateTexture(rendererJson["texturePath"].GetString(), ent);
-			}
 		}
 	}
 private:

@@ -9,7 +9,15 @@
 class camera
 {
 public:
-	
+	static camera& instance() {
+		static camera instance;  // Created lazily
+		return instance;
+	}
+
+	// Prevent copying and assignment
+	camera(const camera&) = delete;
+	camera& operator=(const camera&) = delete;
+
 	glm::mat4 getviewmatrix()
 	{
 		camPos = glm::mat4(1);
@@ -37,6 +45,7 @@ public:
 		}
 	}
 private:
+	camera() {}
 	glm::mat4 camPos = glm::mat4(1.0);
 	glm::vec3 position = glm::vec3(0,0,0);
 	float speed = 1;

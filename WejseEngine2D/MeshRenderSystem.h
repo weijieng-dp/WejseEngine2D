@@ -3,6 +3,8 @@
 #include "meshRenderComponent.h"
 #include "WejseRenderer.h"
 #include "TransformComponent.h"
+#include "CameraComponent.h"
+#include "Camera.h"
 
 class MeshRenderSystem
 {

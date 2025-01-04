@@ -17,7 +17,26 @@ void MeshRenderSystem::meshRenderUpdate()
 
 void MeshRenderSystem::meshRenderRender()
 {
-    glm::mat4 viewMatrix = glm::mat4(1.0);
+    camera& cam = camera::instance();
+
+    glm::mat4 viewMatrix;
+    if (debug)
+    {
+        viewMatrix = cam.getviewmatrix();
+
+
+        if (glfwGetMouseButton(window, 1) == GLFW_PRESS)
+            cam.processMovement();
+    }
+    else
+    {
+        auto entitywithcameracomp = registry.getEntitiesWithComponents<CameraComponent>();
+        for (auto entity : entitywithcameracomp)
+        {
+            auto transformcomp = registry.getComponent<TransformComponent>(entity);
+            viewMatrix = transformcomp->transform;
+        }
+    }
     glm::mat4 projectionMatrix = glm::ortho(-ScreenWidth / 2.0f, ScreenWidth / 2.0f, -Screenheight / 2.0f, Screenheight / 2.0f, -1.0f, 1.0f);
     auto entitywithMeshrendercomp = registry.getEntitiesWithComponent<MeshRenderComponent>();
     for (auto entity : entitywithMeshrendercomp)
@@ -43,7 +62,7 @@ void MeshRenderSystem::meshRenderRender()
         }
         if (meshRenderComp->shapeName == "circle")
         {
-            drawCircle();
+            drawfilledCircle();
         }
         if (meshRenderComp->shapeName == "line")
         {

@@ -11,6 +11,9 @@
 #include "TransformComponent.h"
 #include "SpriteRenderComponent.h"
 #include "meshRenderComponent.h"
+#include "CameraComponent.h"
+
+#include <rttr/registration.h>
 
 class InspectorPanel
 {
@@ -32,6 +35,7 @@ public:
 	void render()
 	{
 		ImGuiIO& io = ImGui::GetIO();
+		rttr::type transformType = rttr::type::get<TransformComponent>();
 
 		ImGui::Begin("Inspector");
 		auto entitywithtransformComponent = registry.getEntitiesWithComponents<TransformComponent, selectionComponent>();
@@ -60,115 +64,23 @@ public:
 				}
 
 
-				auto tranformcomponent = registry.getComponent<TransformComponent>(entity);
-				auto* spriteRenderComponent = registry.getComponent<SpriteRenderComponent>(entity);
-				auto* meshRenderComponent = registry.getComponent<MeshRenderComponent>(entity);
-
 				ImGui::SetNextItemOpen(true);
+
+
 
 				if (ImGui::TreeNode("Component"))
 				{
-					ImGui::SeparatorText("Transform Component");
 
+					
+						RenderDynamicUI<TransformComponent>(entity);
+						RenderDynamicUI<SpriteRenderComponent>(entity);
+						RenderDynamicUI<MeshRenderComponent>(entity);
+						RenderDynamicUI<CameraComponent>(entity);
 
-					float TranslationValue[] = { tranformcomponent->translate.x, tranformcomponent->translate.y };
-					float scaleValue[] = { tranformcomponent->scale.x,tranformcomponent->scale.y };
-
-					ImGui::DragFloat2("Position: ", TranslationValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
-					ImGui::DragFloat("Rotation: ", &tranformcomponent->rotation, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
-					ImGui::DragFloat2("Scale: ", scaleValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
-
-					tranformcomponent->translate = glm::vec3(TranslationValue[0], TranslationValue[1], 0);
-					tranformcomponent->scale = glm::vec3(scaleValue[0], scaleValue[1], 1);
-
-
-					if (spriteRenderComponent)
-					{
-						ImGui::Dummy(ImVec2(0.0f, 10.0f));
-
-						ImGui::SeparatorText("Sprite Render Component");
-
-						float uColor[3] = { spriteRenderComponent->color[0],spriteRenderComponent->color[1] ,spriteRenderComponent->color[2] };
-
-						if(ImGui::ColorEdit3("Vertex Color", uColor)) {
-							// Color has changed; you can use it to update the OpenGL buffer or shaders
-							spriteRenderComponent->color[0] = uColor[0];
-							spriteRenderComponent->color[1] = uColor[1];
-							spriteRenderComponent->color[2] = uColor[2];
-						}
+		
 
 
 
-						// Ensure the string has enough space for input
-						spriteRenderComponent->TextureString.resize(128); // Adjust size as needed
-
-
-						// Text input field
-						if (ImGui::InputText("Input Text", &spriteRenderComponent->TextureString[0], spriteRenderComponent->TextureString.size() + 1)) {
-							// Optional: Resize back to the actual length
-							spriteRenderComponent->TextureString.resize(strlen(spriteRenderComponent->TextureString.c_str()));
-						}
-
-
-						ImVec2 size = ImGui::GetItemRectSize();
-						ImGui::InvisibleButton("DropZone", ImVec2(size.x, size.y));
-						if (ImGui::BeginDragDropTarget()) {
-							if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
-								path = static_cast<const char*>(payload->Data);
-								if (path)
-								{
-									updateTexture(path, entity);
-									spriteRenderComponent->TextureString = path;
-								}
-							}
-							ImGui::EndDragDropTarget();
-						}
-
-
-						// Show the current value of the input
-						if (ImGui::Button("Change Texture"))
-						{
-							updateTexture(spriteRenderComponent->TextureString, entity);
-						}
-						if (ImGui::Button("Delete Component")) {
-							registry.removeComponent<SpriteRenderComponent>(entity);
-						}
-					}
-
-					if (meshRenderComponent)
-					{
-
-						ImGui::Dummy(ImVec2(0.0f, 10.0f));
-
-						ImGui::SeparatorText("Mesh Render Component");
-
-						static const char* items[] = { "square", "triangle", "circle","line"};
-						static std::string currentItem = meshRenderComponent->shapeName;
-
-						if (ImGui::BeginCombo("mesh", currentItem.c_str())) {
-							for (int i = 0; i < IM_ARRAYSIZE(items); i++) {
-								bool isSelected = (currentItem == items[i]);
-								if (ImGui::Selectable(items[i], isSelected)) {
-									meshRenderComponent->shapeName = items[i];
-									currentItem = items[i];
-								}
-							}
-							ImGui::EndCombo();
-						}
-
-						float uColor[3] = { meshRenderComponent->color[0],meshRenderComponent->color[1] ,meshRenderComponent->color[2] };
-
-						if (ImGui::ColorEdit3("Vertex Color", uColor)) {
-							// Color has changed; you can use it to update the OpenGL buffer or shaders
-							meshRenderComponent->color[0] = uColor[0];
-							meshRenderComponent->color[1] = uColor[1];
-							meshRenderComponent->color[2] = uColor[2];
-						}
-
-						if (ImGui::Button("Delete Component")) {
-							registry.removeComponent<MeshRenderComponent>(entity);
-						}
-					}
 
 
 					ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -202,6 +114,115 @@ public:
 			}
 		}
 	}
+
+	// Render function to display properties dynamically
+	template<typename t>
+	void RenderDynamicUI(EntityRegistry::Entity ent) {
+
+		auto comp = registry.getComponent<t>(ent);
+		// Get the type of the object dynamically
+
+		if (comp)
+		{
+			
+			rttr::type obj_type = rttr::type::get(comp);
+			ImGui::SeparatorText(obj_type.get_name().to_string().c_str());
+			
+			// Iterate through the object's properties
+			for (auto& prop : obj_type.get_properties()) 
+			{
+				std::string prop_name = prop.get_name().to_string();
+				auto value = prop.get_value(comp);
+
+				if (value.is_type<int>()) {
+					int int_value = value.get_value<int>();
+					if (ImGui::InputInt(prop_name.c_str(), &int_value)) {
+						prop.set_value(comp, int_value);  // Update the object property
+					}
+				}
+				else if (value.is_type<std::string>() && prop_name == "shape")
+				{
+
+
+					static std::string items[] = { "square", "triangle", "circle","line" };
+					static std::string currentItem = value.get_value<std::string>();
+
+					if (ImGui::BeginCombo("mesh", currentItem.c_str())) {
+						for (int i = 0; i < IM_ARRAYSIZE(items); i++) {
+							bool isSelected = (currentItem == items[i]);
+							if (ImGui::Selectable(items[i].c_str(), isSelected)) {
+								std::cout << prop.set_value(comp, items[i]);
+								currentItem = items[i];
+							}
+						}
+						ImGui::EndCombo();
+					}
+				}
+				else if (value.is_type<std::string>() && prop_name == "Texture")
+				{
+					std::string string_value = value.get_value<std::string>();
+					// Ensure that the string has enough space for input
+					if (ImGui::InputText(prop_name.c_str(), &string_value[0], string_value.capacity())) {
+						// Update the object property with the new string length (truncated to fit)
+						string_value.resize(strlen(string_value.c_str()));
+						prop.set_value(comp, string_value);  // Update the object property
+					}
+
+					if (ImGui::BeginDragDropTarget()) {
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+							path = static_cast<const char*>(payload->Data);
+							if (path)
+							{
+								updateTexture(path, ent);
+								string_value = path;
+							}
+						}
+						ImGui::EndDragDropTarget();
+					}
+
+				}
+				else if (value.is_type<std::string>()) {
+					std::string string_value = value.get_value<std::string>();
+					// Ensure that the string has enough space for input
+					if (ImGui::InputText(prop_name.c_str(), &string_value[0], string_value.capacity())) {
+						// Update the object property with the new string length (truncated to fit)
+						string_value.resize(strlen(string_value.c_str()));
+						prop.set_value(comp, string_value);  // Update the object property
+					}
+				}
+				else if (value.is_type<glm::vec3>() && prop_name == "color") {
+					glm::vec3 vec_value = value.get_value<glm::vec3>();
+					if (ImGui::ColorEdit3(prop_name.c_str(), &vec_value[0], 0.1f)) {
+						prop.set_value(comp, vec_value);  // Update the object property
+					}
+				}
+				else if (value.is_type<glm::vec3>()) {
+					glm::vec3 vec_value = value.get_value<glm::vec3>();
+					if (ImGui::DragFloat2(prop_name.c_str(), &vec_value[0], 0.1f)) {
+						prop.set_value(comp, vec_value);  // Update the object property
+					}
+				}
+				else if (value.is_type<float>()) {
+					float float_value = value.get_value<float>();
+					if (ImGui::DragFloat(prop_name.c_str(), &float_value, 0.1f)) {
+						prop.set_value(comp, float_value);  // Update the object property
+					}
+				}
+
+			}
+			if (obj_type.get_name().to_string() != "Transform Component*")
+			{
+				if (ImGui::Button(("Delete Component ##" + obj_type.get_name().to_string()).c_str())) {
+					std::cout << "Delete button clicked for component: " << obj_type.get_name().to_string() << std::endl;
+					registry.removeComponent<t>(ent);
+				}
+
+			}
+			ImGui::Dummy(ImVec2(0, 10));
+		}
+	}
+
+
 private:
 	Registry& registry = Registry::instance();
 	componentRegistry& Componentregistry = componentRegistry::instance();

@@ -77,7 +77,6 @@ void UpdateImGui()
 	//);
 
 
-
 	// Start ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui::NewFrame();
