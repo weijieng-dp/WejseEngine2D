@@ -3,6 +3,8 @@
 #include "WejseRenderer.h"
 #include "Registry.h"
 #include "Camera.h"
+#include "CameraComponent.h"
+#include "meshRenderComponent.h"
 
 void RenderInitialise();
 

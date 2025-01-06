@@ -55,6 +55,7 @@ private:
     Entity nextId = 0;                 // Next available entity ID
     std::queue<Entity> freeIds;       // Recycled entity IDs
     std::unordered_map<Entity, std::string> entityNames;
+    
     std::unordered_set<Entity> allEntities;  // Stores all created entities
 };
 

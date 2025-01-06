@@ -75,4 +75,8 @@ RTTR_REGISTRATION
 		.property("Texture", &SpriteRenderComponent::TextureString);
 
 	rttr::registration::class_<CameraComponent>("Camera Component");
+
+	rttr::registration::class_<LayerComponent>("Layer Component")
+		.constructor<>()
+		.property("layer", &LayerComponent::layer);
 }

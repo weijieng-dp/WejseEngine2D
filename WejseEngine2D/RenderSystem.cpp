@@ -1,7 +1,6 @@
 
 #include "SpriteRenderSystem.h"
 
-EntityRegistry::Entity Cameraent;
 
 void RenderInitialise()
 {
@@ -9,8 +8,6 @@ void RenderInitialise()
 
 	initialiseQuad();
 
-	Cameraent = registry.createEntity("camera");
-	registry.addComponent<TransformComponent>(Cameraent,{});
 }
 
 void RenderUpdate(Registry& registry)
@@ -28,13 +25,19 @@ void RenderUpdate(Registry& registry)
 	}
 	else
 	{
-		auto transformcomp = registry.getComponent<TransformComponent>(Cameraent);
-		viewMatrix = transformcomp->transform;
+		auto Cameraent = registry.getEntitiesWithComponent<CameraComponent>();
+		auto transformcomp = registry.getComponent<TransformComponent>(Cameraent[0]);
+		
+		viewMatrix = glm::translate(glm::mat4(1), transformcomp->translate);
 
 	}
 	glm::mat4 projectionMatrix = glm::ortho(-ScreenWidth / 2.0f, ScreenWidth / 2.0f, -Screenheight / 2.0f, Screenheight / 2.0f, -1.0f, 1.0f);
 	// Retrieve all entities with a SpriteRenderComponent
+	auto entitiesWithlayer = registry.getEntitiesWithComponent<LayerComponent>();
 	auto entitiesWithRender = registry.getEntitiesWithComponent<SpriteRenderComponent>();
+
+	//sortlayer(entitiesWithlayer, registry);
+
 	for (auto& entity : entitiesWithRender) {
 		auto* renderComp = registry.getComponent<SpriteRenderComponent>(entity);
 		auto* transformComp = registry.getComponent<TransformComponent>(entity);

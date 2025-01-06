@@ -22,24 +22,18 @@ public:
 		// load and generate the texture
 		int width, height, nrChannels;
 		GLuint tex_ID = SOIL_load_OGL_texture(
-			filePath,
-			SOIL_LOAD_AUTO,
-			SOIL_CREATE_NEW_ID,
-			SOIL_FLAG_POWER_OF_TWO
-			| SOIL_FLAG_MIPMAPS
-			//| SOIL_FLAG_MULTIPLY_ALPHA
-			//| SOIL_FLAG_COMPRESS_TO_DXT
-			| SOIL_FLAG_DDS_LOAD_DIRECT
-			//| SOIL_FLAG_NTSC_SAFE_RGB
-			//| SOIL_FLAG_CoCg_Y
-			//| SOIL_FLAG_TEXTURE_RECTANGLE
+			filePath,       // Image file path
+			SOIL_LOAD_RGBA,            // Force RGBA
+			SOIL_CREATE_NEW_ID,        // Generate a new texture ID
+			SOIL_FLAG_MIPMAPS          // Generate mipmaps (optional, you can use other flags too)
 		);
+
 		if (tex_ID > 0)
 		{
+			
 			//	enable texturing
 			glEnable(GL_TEXTURE_2D);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 			//glEnable( 0x84F5 );// enables texture rectangle
 			//  bind an OpenGL texture ID
 			ID = tex_ID;

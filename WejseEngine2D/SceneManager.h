@@ -178,7 +178,7 @@ public:
 			DynamicSerializer<SpriteRenderComponent>(entityJson, entity);
 			DynamicSerializer<MeshRenderComponent>(entityJson, entity);
 			DynamicSerializer<CameraComponent>(entityJson, entity);
-
+			DynamicSerializer<LayerComponent>(entityJson, entity);
 		
 
 			entitiesArr.PushBack(entityJson, allocator);
@@ -186,7 +186,28 @@ public:
 		return entitiesArr;
 
 	}
+	void Deserialize(const Value& entities)
+	{
+		for (const auto& entityJson : entities.GetArray())
+		{
+			if (!entityJson.IsObject() || !entityJson.HasMember("name"))
+			{
+				std::cerr << "Error: Invalid entity format or missing 'name' in entity." << std::endl;
+				continue;
+			}
 
+			auto ent = registry.createEntity(entityJson["name"].GetString());
+
+			registry.addComponent<selectionComponent>(ent, {});
+
+			DynamicDeserializer<TransformComponent>(entityJson, ent);
+			DynamicDeserializer<MeshRenderComponent>(entityJson, ent);
+			DynamicDeserializer<SpriteRenderComponent>(entityJson, ent);
+			DynamicDeserializer<CameraComponent>(entityJson, ent);
+			DynamicDeserializer<LayerComponent>(entityJson, ent);
+
+		}
+	}
 
 	template <typename T>
 	void DynamicDeserializer(const rapidjson::Value& entJson, EntityRegistry::Entity ent) {
@@ -327,27 +348,7 @@ public:
 	}
 
 
-	void Deserialize(const Value& entities)
-	{
-		for (const auto& entityJson : entities.GetArray())
-		{
-			if (!entityJson.IsObject() || !entityJson.HasMember("name"))
-			{
-				std::cerr << "Error: Invalid entity format or missing 'name' in entity." << std::endl;
-				continue;
-			}
 
-			auto ent = registry.createEntity(entityJson["name"].GetString());
-
-			registry.addComponent<selectionComponent>(ent, {});
-			
-			DynamicDeserializer<TransformComponent>(entityJson,ent);
-			DynamicDeserializer<MeshRenderComponent>(entityJson, ent);
-			DynamicDeserializer<SpriteRenderComponent>(entityJson, ent);
-			DynamicDeserializer<CameraComponent>(entityJson, ent);
-
-		}
-	}
 private:
 	Registry& registry = Registry::instance();
 	componentRegistry& ComponentRegistry = componentRegistry::instance();

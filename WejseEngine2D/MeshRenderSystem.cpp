@@ -30,15 +30,16 @@ void MeshRenderSystem::meshRenderRender()
     }
     else
     {
-        auto entitywithcameracomp = registry.getEntitiesWithComponents<CameraComponent>();
-        for (auto entity : entitywithcameracomp)
-        {
-            auto transformcomp = registry.getComponent<TransformComponent>(entity);
-            viewMatrix = transformcomp->transform;
-        }
+        auto Cameraent = registry.getEntitiesWithComponent<CameraComponent>();
+        auto transformcomp = registry.getComponent<TransformComponent>(Cameraent[0]);
+
+        viewMatrix = glm::translate(glm::mat4(1), transformcomp->translate);
     }
+
+
     glm::mat4 projectionMatrix = glm::ortho(-ScreenWidth / 2.0f, ScreenWidth / 2.0f, -Screenheight / 2.0f, Screenheight / 2.0f, -1.0f, 1.0f);
     auto entitywithMeshrendercomp = registry.getEntitiesWithComponent<MeshRenderComponent>();
+
     for (auto entity : entitywithMeshrendercomp)
     {
         auto meshRenderComp = registry.getComponent<MeshRenderComponent>(entity);

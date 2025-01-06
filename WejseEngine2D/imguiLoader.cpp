@@ -136,18 +136,26 @@ void RenderImGui()
 
 
 	scenePanel.bind_framebuffer(); // Comment this out if you are rendering to the default framebuffer
+	glEnable(GL_DEPTH_TEST);
+
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Set blending function
+		// 1. Render opaque objects (no blending)
+	meshRenderSystem.meshRenderRender();  // Render opaque meshes
+
+	RenderUpdate(registry);  // Update the transparent objects
 
 
 
-	glClear(GL_COLOR_BUFFER_BIT);
-	RenderUpdate(registry);
-	meshRenderSystem.meshRenderRender();
+	// 3. Finish other operations like transforms
 	UpdateTransform(registry);
-	// Update entities
-	//manager.UpdateEntities();
 
 	// Unbind the framebuffer
 	scenePanel.unbind_framebuffer(); // Comment this out if rendering to the default framebuffer
+	glDisable(GL_BLEND);
 
 
 }

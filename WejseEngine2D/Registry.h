@@ -2,6 +2,8 @@
 #include "EntityRegistry.h"
 #include "component.h"
 
+#include "LayerComponent.h"
+
 class Registry {
 public:
 
@@ -33,10 +35,17 @@ public:
         return entityRegistry.getEntityName(ent);
     }
 
+    // Add a component to an entity
+    template <typename Component>
+    void addComponent(Entity entity, Component component) {
+        getStorage<Component>()->add(entity, std::move(component));
+    }
+
     // Create a new entity
     Entity createEntity(std::string name = "") {
         Entity entity = entityRegistry.createEntity();
         entityRegistry.addEntity(entity,name);
+        addComponent<LayerComponent>(entity, {});
         return entity;
     }
 
@@ -59,11 +68,7 @@ public:
         entityRegistry.destroyEntity(entity);
     }
 
-    // Add a component to an entity
-    template <typename Component>
-    void addComponent(Entity entity, Component component) {
-        getStorage<Component>()->add(entity, std::move(component));
-    }
+
 
     // Get a component from an entity
     template <typename Component>

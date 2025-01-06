@@ -63,6 +63,14 @@ public:
 					}
 				}
 
+				auto layerComp = registry.getComponent<LayerComponent>(entity);
+
+				if (layerComp)
+				{
+					if (ImGui::DragInt("Layer", &layerComp->layer, 1)) {
+						std::cout << layerComp->layer;
+					}
+				}
 
 				ImGui::SetNextItemOpen(true);
 
@@ -198,7 +206,7 @@ public:
 				}
 				else if (value.is_type<glm::vec3>()) {
 					glm::vec3 vec_value = value.get_value<glm::vec3>();
-					if (ImGui::DragFloat2(prop_name.c_str(), &vec_value[0], 0.1f)) {
+					if (ImGui::DragFloat3(prop_name.c_str(), &vec_value[0], 0.1f)) {
 						prop.set_value(comp, vec_value);  // Update the object property
 					}
 				}

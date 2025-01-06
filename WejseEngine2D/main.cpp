@@ -10,6 +10,7 @@
 #include "WejseRenderer.h"
 
 #include "SpriteRenderSystem.h"
+#include "MeshRenderSystem.h"
 #include "TransformSystem.h"
 
 
@@ -69,12 +70,13 @@ int main()
 		sceneManager.LoadScene("Assets/Scenes/scene1.txt");
 
 	Registry& registry = Registry::instance();
-	
+	MeshRenderSystem meshRenderSystem;
+
 
 	ComponentInitialise();
 	RenderInitialise();
 
-
+	meshRenderSystem.meshRenderInitialisation();
 
 	// Main loop
 	while (!glfwWindowShouldClose(window))
@@ -88,8 +90,9 @@ int main()
 			glClear(GL_COLOR_BUFFER_BIT);
 			UpdateTransform(registry);
 			RenderUpdate(registry);
+			meshRenderSystem.meshRenderRender();
+			sceneManager.LoadScene("Assets/Scenes/scene1.txt");
 			// Update entities
-			//manager.UpdateEntities();
 
 		}
 		else
