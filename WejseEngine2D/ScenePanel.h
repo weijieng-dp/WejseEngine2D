@@ -3,7 +3,6 @@
 #include "imgui.h"
 #include "SceneManager.h"
 
-
 class ScenePanel
 {
 public:
@@ -27,8 +26,8 @@ public:
 	{
 		ImGui::Begin(SceneName.c_str());
 
-		const float window_width = ImGui::GetContentRegionAvail().x;
-		const float window_height = ImGui::GetContentRegionAvail().y;
+		GLsizei window_width = ImGui::GetContentRegionAvail().x;
+		GLsizei window_height = ImGui::GetContentRegionAvail().y;
 
 		Screenheight = window_height;
 		ScreenWidth = window_width;
@@ -46,7 +45,7 @@ public:
 			ImVec2(0, 1),
 			ImVec2(1, 0)
 		);
-
+	
 
 		ImGui::InvisibleButton("DropZone", ImVec2(ScreenWidth, Screenheight));
 		if (ImGui::BeginDragDropTarget()) {
@@ -59,7 +58,7 @@ public:
 			}
 			ImGui::EndDragDropTarget();
 		}
-
+	
 
 		ImGui::End();
 
@@ -132,4 +131,10 @@ private:
 	SceneManager sceneManager;
 	const char* path;
 	std::string savepath;
+
+
+	Registry& registry = Registry::instance();
+
+
+
 };

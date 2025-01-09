@@ -1,6 +1,7 @@
 
 #include "SpriteRenderSystem.h"
 
+static camera& cam = camera::instance();
 
 void RenderInitialise()
 {
@@ -12,7 +13,6 @@ void RenderInitialise()
 
 void RenderUpdate(Registry& registry)
 {
-	camera& cam = camera::instance();
 
 	glm::mat4 viewMatrix;
 	if (debug)

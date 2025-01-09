@@ -16,9 +16,6 @@
     <Filter Include="Header Files\ECS">
       <UniqueIdentifier>{c83aeed8-1637-4cca-a27c-3d2b24130637}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Components">
-      <UniqueIdentifier>{bb6378fb-b601-48ea-86b0-45f24efb7f9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Graphic">
       <UniqueIdentifier>{f50c46b3-1ccf-40bb-a3bb-d1a490fd8c3a}</UniqueIdentifier>
     </Filter>
@@ -31,9 +28,6 @@
     <Filter Include="Source Files\graphic">
       <UniqueIdentifier>{3cd83dca-3d30-4f6d-803c-b36a8ddadf20}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\System">
-      <UniqueIdentifier>{c55c5f24-1c2c-4141-a879-4891091c2ea9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\System">
       <UniqueIdentifier>{2c5c4f90-49f4-4308-97d4-01f6076344a7}</UniqueIdentifier>
     </Filter>
@@ -43,14 +37,23 @@
     <Filter Include="Source Files\SOIL">
       <UniqueIdentifier>{dceb724f-d6a0-44d8-8f5c-c22fa5bb2be9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\SOIL">
-      <UniqueIdentifier>{c4321368-f0e5-438a-9a1e-a022e8bff30f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\EditorLayout">
+    <Filter Include="Header Files\Graphic\EditorLayout">
       <UniqueIdentifier>{762b5c9f-6acb-4b80-bdbc-61008749052e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic\RenderSystem">
+      <UniqueIdentifier>{c55c5f24-1c2c-4141-a879-4891091c2ea9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\RTTR">
       <UniqueIdentifier>{f02d66bb-a2cf-4f39-9cdc-501ffd6cf337}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic\SOIL">
+      <UniqueIdentifier>{c4321368-f0e5-438a-9a1e-a022e8bff30f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ECS\Components">
+      <UniqueIdentifier>{bb6378fb-b601-48ea-86b0-45f24efb7f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ECS\System">
+      <UniqueIdentifier>{2f8557ff-4f01-4445-96c1-68d0596adb7a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -216,10 +219,10 @@
       <Filter>Header Files\ECS</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRenderComponent.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="WejseRenderer.h">
       <Filter>Header Files\Graphic</Filter>
@@ -255,7 +258,7 @@
       <Filter>Header Files\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRenderSystem.h">
-      <Filter>Header Files\System</Filter>
+      <Filter>Header Files\Graphic\RenderSystem</Filter>
     </ClInclude>
     <ClInclude Include="EntityRegistry.h">
       <Filter>Header Files\ECS</Filter>
@@ -263,11 +266,8 @@
     <ClInclude Include="Registry.h">
       <Filter>Header Files\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="TransformSystem.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
     <ClInclude Include="selectionComponent.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="ComponentRegistry.h">
       <Filter>Header Files\ECS</Filter>
@@ -285,46 +285,46 @@
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\SOIL.h">
-      <Filter>Header Files\SOIL</Filter>
+      <Filter>Header Files\Graphic\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\stbi_DDS_aug_c.h">
-      <Filter>Header Files\SOIL</Filter>
+      <Filter>Header Files\Graphic\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\image_DXT.h">
-      <Filter>Header Files\SOIL</Filter>
+      <Filter>Header Files\Graphic\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\image_helper.h">
-      <Filter>Header Files\SOIL</Filter>
+      <Filter>Header Files\Graphic\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\stb_image_aug.h">
-      <Filter>Header Files\SOIL</Filter>
+      <Filter>Header Files\Graphic\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SOIL\stbi_DDS_aug.h">
-      <Filter>Header Files\SOIL</Filter>
+      <Filter>Header Files\Graphic\SOIL</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="imguiLoader.h">
-      <Filter>Header Files\EditorLayout</Filter>
+      <Filter>Header Files\Graphic\EditorLayout</Filter>
     </ClInclude>
     <ClInclude Include="ContentBrowser.h">
-      <Filter>Header Files\EditorLayout</Filter>
+      <Filter>Header Files\Graphic\EditorLayout</Filter>
     </ClInclude>
     <ClInclude Include="EntityPanel.h">
-      <Filter>Header Files\EditorLayout</Filter>
+      <Filter>Header Files\Graphic\EditorLayout</Filter>
     </ClInclude>
     <ClInclude Include="InspectorPanel.h">
-      <Filter>Header Files\EditorLayout</Filter>
+      <Filter>Header Files\Graphic\EditorLayout</Filter>
     </ClInclude>
     <ClInclude Include="ScenePanel.h">
-      <Filter>Header Files\EditorLayout</Filter>
+      <Filter>Header Files\Graphic\EditorLayout</Filter>
     </ClInclude>
     <ClInclude Include="meshRenderComponent.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderSystem.h">
-      <Filter>Header Files\System</Filter>
+      <Filter>Header Files\Graphic\RenderSystem</Filter>
     </ClInclude>
     <ClInclude Include="..\include\rttr\argument.h">
       <Filter>Header Files\RTTR</Filter>
@@ -747,10 +747,16 @@
       <Filter>Header Files\RTTR</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="LayerComponent.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformSystem.h">
+      <Filter>Header Files\ECS\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Gizmos.h">
+      <Filter>Header Files\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

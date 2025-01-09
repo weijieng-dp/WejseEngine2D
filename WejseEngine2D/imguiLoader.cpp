@@ -3,6 +3,7 @@
 
 
 #include "imguiLoader.h"
+#include "Gizmos.h"
 
 
 
@@ -23,6 +24,8 @@ ScenePanel scenePanel;
 
 MeshRenderSystem meshRenderSystem;
 
+Gizmos gizmos;
+
 void InitializeImGui(GLFWwindow* window)
 {
 
@@ -42,6 +45,11 @@ void InitializeImGui(GLFWwindow* window)
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
+
+	double mouseX, mouseY;
+	glfwGetCursorPos(window, &mouseX,&mouseY);
+	io.MousePos = ImVec2(mouseX, mouseY);  // Update with current mouse position
+	io.MouseDown[0] = glfwGetMouseButton(window,0);
 	// Setup Platform/Renderer backends
 	ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
 	ImGui_ImplOpenGL3_Init();
@@ -78,14 +86,15 @@ void UpdateImGui()
 
 
 	// Start ImGui frame
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui::NewFrame();
-	ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
+
 
 }
 
 void RenderImGui()
 {
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui::NewFrame();
+	ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.DisplaySize = ImVec2(ScreenWidth, Screenheight);
@@ -99,7 +108,6 @@ void RenderImGui()
 	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
 
 	//EntityManager& manager = EntityManager::GetInstance();
-	scenePanel.render("Scene Panel");
 
 
 	contentBrowser.render();
@@ -109,10 +117,11 @@ void RenderImGui()
 
 	inspectorPanel.render();
 
+	auto selectionentities = registry.getEntitiesWithComponent<selectionComponent>();
 
 
 
-	ImGui::End();
+
 
 	//if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
 	//	Entity selectedEntity = getObjectAtMousePosition(manager.Entities);
@@ -121,6 +130,7 @@ void RenderImGui()
 	//	}
 	//}
 
+	scenePanel.render("Scene Panel");
 
 	ImGui::Render();
 
@@ -136,6 +146,8 @@ void RenderImGui()
 
 
 	scenePanel.bind_framebuffer(); // Comment this out if you are rendering to the default framebuffer
+
+
 	glEnable(GL_DEPTH_TEST);
 
 
@@ -143,6 +155,7 @@ void RenderImGui()
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Set blending function
+
 		// 1. Render opaque objects (no blending)
 	meshRenderSystem.meshRenderRender();  // Render opaque meshes
 
@@ -151,8 +164,8 @@ void RenderImGui()
 
 
 	// 3. Finish other operations like transforms
-	UpdateTransform(registry);
 
+		UpdateTransform(registry);
 	// Unbind the framebuffer
 	scenePanel.unbind_framebuffer(); // Comment this out if rendering to the default framebuffer
 	glDisable(GL_BLEND);

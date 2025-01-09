@@ -1,6 +1,6 @@
 #include "MeshRenderSystem.h"
 
-
+static camera& cam = camera::instance();
 void MeshRenderSystem::meshRenderInitialisation()
 {
     initialiseWireFrameBox();
@@ -17,7 +17,7 @@ void MeshRenderSystem::meshRenderUpdate()
 
 void MeshRenderSystem::meshRenderRender()
 {
-    camera& cam = camera::instance();
+
 
     glm::mat4 viewMatrix;
     if (debug)
@@ -38,6 +38,12 @@ void MeshRenderSystem::meshRenderRender()
 
 
     glm::mat4 projectionMatrix = glm::ortho(-ScreenWidth / 2.0f, ScreenWidth / 2.0f, -Screenheight / 2.0f, Screenheight / 2.0f, -1.0f, 1.0f);
+
+
+
+
+
+
     auto entitywithMeshrendercomp = registry.getEntitiesWithComponent<MeshRenderComponent>();
 
     for (auto entity : entitywithMeshrendercomp)
@@ -47,6 +53,7 @@ void MeshRenderSystem::meshRenderRender()
 
         
         meshRenderComp->shader->use();
+
         meshRenderComp->shader->setMat4("model", transformComp->transform);
         meshRenderComp->shader->setMat4("view", viewMatrix);
         meshRenderComp->shader->setMat4("projection", projectionMatrix);

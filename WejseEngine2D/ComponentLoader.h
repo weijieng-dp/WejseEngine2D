@@ -40,7 +40,7 @@ inline void ComponentInitialise()
 	ComponentRegistry.registerComponent<selectionComponent>(
 		"Selection Component",
 		[&registry](EntityRegistry::Entity entity) {
-			registry.addComponent<selectionComponent>(entity, { false });
+			registry.addComponent<selectionComponent>(entity, {false});
 		});
 
 	ComponentRegistry.registerComponent<MeshRenderComponent>(

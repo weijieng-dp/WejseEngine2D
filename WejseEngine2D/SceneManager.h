@@ -178,7 +178,6 @@ public:
 			DynamicSerializer<SpriteRenderComponent>(entityJson, entity);
 			DynamicSerializer<MeshRenderComponent>(entityJson, entity);
 			DynamicSerializer<CameraComponent>(entityJson, entity);
-			DynamicSerializer<LayerComponent>(entityJson, entity);
 		
 
 			entitiesArr.PushBack(entityJson, allocator);

@@ -13,6 +13,7 @@
 #include "meshRenderComponent.h"
 #include "CameraComponent.h"
 
+
 #include <rttr/registration.h>
 
 class InspectorPanel
@@ -63,18 +64,10 @@ public:
 					}
 				}
 
-				auto layerComp = registry.getComponent<LayerComponent>(entity);
-
-				if (layerComp)
-				{
-					if (ImGui::DragInt("Layer", &layerComp->layer, 1)) {
-						std::cout << layerComp->layer;
-					}
-				}
 
 				ImGui::SetNextItemOpen(true);
 
-
+				
 
 				if (ImGui::TreeNode("Component"))
 				{
@@ -87,7 +80,7 @@ public:
 
 		
 
-
+								
 
 
 
@@ -121,6 +114,8 @@ public:
 				}
 			}
 		}
+		ImGui::End();
+
 	}
 
 	// Render function to display properties dynamically
@@ -238,4 +233,5 @@ private:
 	std::string entityName;
 	std::string selectedComponentstring;
 	const char* path;
+
 };

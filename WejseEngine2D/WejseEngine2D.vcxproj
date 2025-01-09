@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)include;$(SolutionDir)Assets;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)Assets;$(SolutionDir)imgui;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)include;$(SolutionDir)Assets;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)Assets;$(SolutionDir)imgui;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -356,6 +356,7 @@
     <ClInclude Include="ContentBrowser.h" />
     <ClInclude Include="EntityPanel.h" />
     <ClInclude Include="EntityRegistry.h" />
+    <ClInclude Include="Gizmos.h" />
     <ClInclude Include="imguiLoader.h" />
     <ClInclude Include="InspectorPanel.h" />
     <ClInclude Include="LayerComponent.h" />
