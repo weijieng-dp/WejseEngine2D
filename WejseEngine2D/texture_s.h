@@ -1,7 +1,9 @@
 #pragma once
+
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "SOIL/SOIL.h"
+#include "stb_image.h"
 #include <iostream>
 
 class texture
@@ -21,36 +23,27 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		// load and generate the texture
 		int width, height, nrChannels;
-		GLuint tex_ID = SOIL_load_OGL_texture(
-			filePath,       // Image file path
-			SOIL_LOAD_RGBA,            // Force RGBA
-			SOIL_CREATE_NEW_ID,        // Generate a new texture ID
-			SOIL_FLAG_MIPMAPS          // Generate mipmaps (optional, you can use other flags too)
-		);
 
-		if (tex_ID > 0)
+		unsigned char* data = stbi_load(filePath, & width, & height, & nrChannels, 0);
+		if (data)
 		{
-			
-			//	enable texturing
-			glEnable(GL_TEXTURE_2D);
-
-			//glEnable( 0x84F5 );// enables texture rectangle
-			//  bind an OpenGL texture ID
-			ID = tex_ID;
 			hastexture = true;
-			//	report
-			std::cout << "the loaded texture ID was " << tex_ID << std::endl;
-			//std::cout << "the load time was " << 0.001f * time_me << " seconds (warning: low resolution timer)" << std::endl;
+
+
+
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			glGenerateMipmap(GL_TEXTURE_2D);
+
+
+
+			stbi_set_flip_vertically_on_load(true);
 		}
 		else
 		{
-			//	loading of the texture failed...why?
 			hastexture = false;
-
-			glDisable(GL_TEXTURE_2D);
-			std::cout << "Texture loading failed: '" << SOIL_last_result() << "'" << std::endl;
+			std::cout << "Failed to load texture" << std::endl;
 		}
-		//stbi_image_free(data);
+		stbi_image_free(data);
 	}
 
 	~texture()

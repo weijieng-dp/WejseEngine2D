@@ -1,10 +1,22 @@
-#pragma once
+﻿#pragma once
+//---------------------------------------------------------
+// @file camera.h
+// @project name: Book-It
+// @authors Ng wei jie (weijie.ng)
+// @brief This file declares function that get the view matrix,
+// and process movement as well as find entity
+// 
+//
+// Copyright © 2025 DigiPen, All rights reserved.
+//---------------------------------------------------------
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "WejseRenderer.h"
+#include "ComponentFile.h"
 #include "GLFW/glfw3.h"
+#include "imgui.h"
+#include "Registry.h"
 
 class camera
 {
@@ -18,36 +30,14 @@ public:
 	camera(const camera&) = delete;
 	camera& operator=(const camera&) = delete;
 
-	glm::mat4 getviewmatrix()
-	{
-		camPos = glm::mat4(1);
-		return glm::translate(camPos,position);
-	}
+	glm::mat4 getviewmatrix();
 
-	void processMovement()
-	{
-		if (glfwGetKey(window, GLFW_KEY_W))
-		{
-			position += glm::vec3(0,-speed,0);
-		}
-		if (glfwGetKey(window, GLFW_KEY_S))
-		{
-			position += glm::vec3(0, speed, 0);
-		}
-		if (glfwGetKey(window, GLFW_KEY_A))
-		{
-			position += glm::vec3(speed,0, 0);
-
-		}
-		if (glfwGetKey(window, GLFW_KEY_D))
-		{
-			position += glm::vec3(-speed,0, 0);
-		}
-	}
+	void processMovement();
+	void FindEntity(Registry& reg, EntityRegistry::Entity ent);
 private:
 	camera() {}
 	glm::mat4 camPos = glm::mat4(1.0);
 	glm::vec3 position = glm::vec3(0,0,0);
-	float speed = 1;
+	float speed = 5;
 
 };

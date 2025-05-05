@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)include;$(SolutionDir)Assets;$(SolutionDir)imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CoreLib;$(SolutionDir)include;$(SolutionDir)include\freetype;$(SolutionDir)Assets;$(SolutionDir)imgui;$(SolutionDir)include\FMOD;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)include;$(SolutionDir)Assets;$(SolutionDir)imgui;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\weiji\Documents\GitHub\Gam150\CoreLib;$(SolutionDir)include;$(SolutionDir)include\freetype;$(SolutionDir)Assets;$(SolutionDir)imgui;$(SolutionDir)include\FMOD;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -108,281 +108,245 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);RTTR_STATIC</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);RTTR_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/bigobj  /D NOMINMAX %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(SolutionDir)CoreLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdcx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;rttr_core_d.lib;freetyped.lib;Corelib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q
+xcopy "$(ProjectDir)shader\*" "$(OutDir)shader\" /s /r /y /q
+xcopy "$(SolutionDir)lib\freetyped.dll" "$(OutDir)" /s /r /y /q
+xcopy "$(SolutionDir)lib\fmodL.dll" "$(OutDir)" /s /r /y /q</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);RTTR_STATIC</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);RTTR_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdcx.h</PrecompiledHeaderFile>
+      <AdditionalOptions>/bigobj  /D NOMINMAX %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;rttr_core.lib;freetype.lib;CoreLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>
+ %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q
+xcopy "$(ProjectDir)shader\*" "$(OutDir)shader\" /s /r /y /q
+xcopy "$(SolutionDir)lib\freetype.dll" "$(OutDir)" /s /r /y /q
+xcopy "$(SolutionDir)lib\fmodL.dll" "$(OutDir)" /s /r /y /q
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\imgui\GraphEditor.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\imgui\ImCurveEdit.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\imgui\ImGradient.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\imgui\imgui.cpp" />
-    <ClCompile Include="..\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\imgui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\imgui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="..\include\rttr\constructor.cpp" />
-    <ClCompile Include="..\include\rttr\destructor.cpp" />
-    <ClCompile Include="..\include\rttr\detail\comparison\compare_equal.cpp" />
-    <ClCompile Include="..\include\rttr\detail\comparison\compare_less.cpp" />
-    <ClCompile Include="..\include\rttr\detail\constructor\constructor_wrapper_base.cpp" />
-    <ClCompile Include="..\include\rttr\detail\conversion\std_conversion_functions.cpp" />
-    <ClCompile Include="..\include\rttr\detail\destructor\destructor_wrapper_base.cpp" />
-    <ClCompile Include="..\include\rttr\detail\enumeration\enumeration_helper.cpp" />
-    <ClCompile Include="..\include\rttr\detail\enumeration\enumeration_wrapper_base.cpp" />
-    <ClCompile Include="..\include\rttr\detail\library\library_unix.cpp" />
-    <ClCompile Include="..\include\rttr\detail\library\library_win.cpp" />
-    <ClCompile Include="..\include\rttr\detail\method\method_wrapper_base.cpp" />
-    <ClCompile Include="..\include\rttr\detail\misc\standard_types.cpp" />
-    <ClCompile Include="..\include\rttr\detail\parameter_info\parameter_info_wrapper_base.cpp" />
-    <ClCompile Include="..\include\rttr\detail\property\property_wrapper_base.cpp" />
-    <ClCompile Include="..\include\rttr\detail\registration\registration_executer.cpp" />
-    <ClCompile Include="..\include\rttr\detail\registration\registration_state_saver.cpp" />
-    <ClCompile Include="..\include\rttr\detail\type\type_data.cpp" />
-    <ClCompile Include="..\include\rttr\detail\type\type_register.cpp" />
-    <ClCompile Include="..\include\rttr\detail\variant\variant_compare.cpp" />
-    <ClCompile Include="..\include\rttr\enumeration.cpp" />
-    <ClCompile Include="..\include\rttr\library.cpp" />
-    <ClCompile Include="..\include\rttr\method.cpp" />
-    <ClCompile Include="..\include\rttr\parameter_info.cpp" />
-    <ClCompile Include="..\include\rttr\policy.cpp" />
-    <ClCompile Include="..\include\rttr\property.cpp" />
-    <ClCompile Include="..\include\rttr\registration.cpp" />
-    <ClCompile Include="..\include\rttr\type.cpp" />
-    <ClCompile Include="..\include\rttr\variant.cpp" />
-    <ClCompile Include="..\include\rttr\variant_associative_view.cpp" />
-    <ClCompile Include="..\include\rttr\variant_sequential_view.cpp" />
-    <ClCompile Include="..\include\rttr\visitor.cpp" />
-    <ClCompile Include="..\include\SOIL\image_DXT.c" />
-    <ClCompile Include="..\include\SOIL\image_helper.c" />
-    <ClCompile Include="..\include\SOIL\SOIL.c" />
-    <ClCompile Include="..\include\SOIL\stb_image_aug.c" />
+    <ClCompile Include="..\imgui\ImGuizmo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_impl_glfw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_impl_opengl3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\imgui\ImSequencer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="imguiLoader.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MeshRenderSystem.cpp" />
-    <ClCompile Include="ObjectPicking.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ScriptingAPI.cpp" />
+    <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
-    <ClCompile Include="WejseRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\imgui\GraphEditor.h" />
     <ClInclude Include="..\imgui\imconfig.h" />
+    <ClInclude Include="..\imgui\ImCurveEdit.h" />
+    <ClInclude Include="..\imgui\ImGradient.h" />
     <ClInclude Include="..\imgui\imgui.h" />
+    <ClInclude Include="..\imgui\ImGuizmo.h" />
     <ClInclude Include="..\imgui\imgui_impl_glfw.h" />
     <ClInclude Include="..\imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="..\imgui\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="..\imgui\imgui_internal.h" />
+    <ClInclude Include="..\imgui\ImSequencer.h" />
     <ClInclude Include="..\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\imgui\imstb_textedit.h" />
     <ClInclude Include="..\imgui\imstb_truetype.h" />
-    <ClInclude Include="..\include\rttr\access_levels.h" />
-    <ClInclude Include="..\include\rttr\argument.h" />
-    <ClInclude Include="..\include\rttr\array_range.h" />
-    <ClInclude Include="..\include\rttr\associative_mapper.h" />
-    <ClInclude Include="..\include\rttr\constructor.h" />
-    <ClInclude Include="..\include\rttr\destructor.h" />
-    <ClInclude Include="..\include\rttr\detail\base\core_prerequisites.h" />
-    <ClInclude Include="..\include\rttr\detail\base\pch.h" />
-    <ClInclude Include="..\include\rttr\detail\base\version.h" />
-    <ClInclude Include="..\include\rttr\detail\comparison\comparable_types.h" />
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_array_equal.h" />
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_array_equal_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_array_less.h" />
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_array_less_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_equal.h" />
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_equal_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_less.h" />
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_less_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\constructor\constructor_invoker.h" />
-    <ClInclude Include="..\include\rttr\detail\constructor\constructor_wrapper.h" />
-    <ClInclude Include="..\include\rttr\detail\constructor\constructor_wrapper_base.h" />
-    <ClInclude Include="..\include\rttr\detail\constructor\constructor_wrapper_defaults.h" />
-    <ClInclude Include="..\include\rttr\detail\conversion\number_conversion.h" />
-    <ClInclude Include="..\include\rttr\detail\conversion\std_conversion_functions.h" />
-    <ClInclude Include="..\include\rttr\detail\default_arguments\default_arguments.h" />
-    <ClInclude Include="..\include\rttr\detail\default_arguments\invoke_with_defaults.h" />
-    <ClInclude Include="..\include\rttr\detail\destructor\destructor_wrapper.h" />
-    <ClInclude Include="..\include\rttr\detail\destructor\destructor_wrapper_base.h" />
-    <ClInclude Include="..\include\rttr\detail\enumeration\enumeration_helper.h" />
-    <ClInclude Include="..\include\rttr\detail\enumeration\enumeration_wrapper.h" />
-    <ClInclude Include="..\include\rttr\detail\enumeration\enumeration_wrapper_base.h" />
-    <ClInclude Include="..\include\rttr\detail\enumeration\enum_data.h" />
-    <ClInclude Include="..\include\rttr\detail\filter\filter_item_funcs.h" />
-    <ClInclude Include="..\include\rttr\detail\impl\argument_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\impl\array_range_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\impl\associative_mapper_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\impl\enum_flags_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\impl\instance_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\impl\rttr_cast_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\impl\sequential_mapper_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\impl\string_view_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\impl\wrapper_mapper_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\library\library_p.h" />
-    <ClInclude Include="..\include\rttr\detail\metadata\metadata.h" />
-    <ClInclude Include="..\include\rttr\detail\metadata\metadata_handler.h" />
-    <ClInclude Include="..\include\rttr\detail\method\method_accessor.h" />
-    <ClInclude Include="..\include\rttr\detail\method\method_invoker.h" />
-    <ClInclude Include="..\include\rttr\detail\method\method_wrapper.h" />
-    <ClInclude Include="..\include\rttr\detail\method\method_wrapper_base.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\argument_extractor.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\argument_wrapper.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\class_item_mapper.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\data_address_container.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\flat_map.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\flat_multimap.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\function_traits.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\iterator_wrapper.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\misc_type_traits.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\register_wrapper_mapper_conversion.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\sequential_container_type_traits.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\std_type_traits.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\template_type_trait.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\template_type_trait_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\misc\utility.h" />
-    <ClInclude Include="..\include\rttr\detail\parameter_info\parameter_infos.h" />
-    <ClInclude Include="..\include\rttr\detail\parameter_info\parameter_infos_compare.h" />
-    <ClInclude Include="..\include\rttr\detail\parameter_info\parameter_info_wrapper.h" />
-    <ClInclude Include="..\include\rttr\detail\parameter_info\parameter_info_wrapper_base.h" />
-    <ClInclude Include="..\include\rttr\detail\parameter_info\parameter_names.h" />
-    <ClInclude Include="..\include\rttr\detail\policies\ctor_policies.h" />
-    <ClInclude Include="..\include\rttr\detail\policies\meth_policies.h" />
-    <ClInclude Include="..\include\rttr\detail\policies\prop_policies.h" />
-    <ClInclude Include="..\include\rttr\detail\property\property_accessor.h" />
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper.h" />
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper_base.h" />
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper_func.h" />
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper_member_func.h" />
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper_member_object.h" />
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper_object.h" />
-    <ClInclude Include="..\include\rttr\detail\registration\bind_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\registration\bind_types.h" />
-    <ClInclude Include="..\include\rttr\detail\registration\register_base_class_from_accessor.h" />
-    <ClInclude Include="..\include\rttr\detail\registration\registration_executer.h" />
-    <ClInclude Include="..\include\rttr\detail\registration\registration_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\registration\registration_manager.h" />
-    <ClInclude Include="..\include\rttr\detail\registration\registration_state_saver.h" />
-    <ClInclude Include="..\include\rttr\detail\type\accessor_type.h" />
-    <ClInclude Include="..\include\rttr\detail\type\base_classes.h" />
-    <ClInclude Include="..\include\rttr\detail\type\get_create_variant_func.h" />
-    <ClInclude Include="..\include\rttr\detail\type\get_derived_info_func.h" />
-    <ClInclude Include="..\include\rttr\detail\type\type_comparator.h" />
-    <ClInclude Include="..\include\rttr\detail\type\type_converter.h" />
-    <ClInclude Include="..\include\rttr\detail\type\type_data.h" />
-    <ClInclude Include="..\include\rttr\detail\type\type_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\type\type_name.h" />
-    <ClInclude Include="..\include\rttr\detail\type\type_register.h" />
-    <ClInclude Include="..\include\rttr\detail\type\type_register_p.h" />
-    <ClInclude Include="..\include\rttr\detail\type\type_string_utils.h" />
-    <ClInclude Include="..\include\rttr\detail\variant\variant_compare.h" />
-    <ClInclude Include="..\include\rttr\detail\variant\variant_data.h" />
-    <ClInclude Include="..\include\rttr\detail\variant\variant_data_converter.h" />
-    <ClInclude Include="..\include\rttr\detail\variant\variant_data_policy.h" />
-    <ClInclude Include="..\include\rttr\detail\variant\variant_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\variant_associative_view\variant_associative_view_creator.h" />
-    <ClInclude Include="..\include\rttr\detail\variant_associative_view\variant_associative_view_creator_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\variant_associative_view\variant_associative_view_private.h" />
-    <ClInclude Include="..\include\rttr\detail\variant_sequential_view\variant_sequential_view_creator.h" />
-    <ClInclude Include="..\include\rttr\detail\variant_sequential_view\variant_sequential_view_creator_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\variant_sequential_view\variant_sequential_view_private.h" />
-    <ClInclude Include="..\include\rttr\detail\visitor\constructor_visitor_invoker.h" />
-    <ClInclude Include="..\include\rttr\detail\visitor\create_type_visitor_func.h" />
-    <ClInclude Include="..\include\rttr\detail\visitor\create_type_visitor_func_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\visitor\method_visitor_invoker.h" />
-    <ClInclude Include="..\include\rttr\detail\visitor\property_visitor_invoker.h" />
-    <ClInclude Include="..\include\rttr\detail\visitor\type_visitor_invoker.h" />
-    <ClInclude Include="..\include\rttr\detail\visitor\visitor_impl.h" />
-    <ClInclude Include="..\include\rttr\detail\visitor\visitor_iterator.h" />
-    <ClInclude Include="..\include\rttr\detail\visitor\visitor_registration.h" />
-    <ClInclude Include="..\include\rttr\enumeration.h" />
-    <ClInclude Include="..\include\rttr\enum_flags.h" />
-    <ClInclude Include="..\include\rttr\filter_item.h" />
-    <ClInclude Include="..\include\rttr\instance.h" />
-    <ClInclude Include="..\include\rttr\library.h" />
-    <ClInclude Include="..\include\rttr\method.h" />
-    <ClInclude Include="..\include\rttr\parameter_info.h" />
-    <ClInclude Include="..\include\rttr\policy.h" />
-    <ClInclude Include="..\include\rttr\property.h" />
-    <ClInclude Include="..\include\rttr\registration.h" />
-    <ClInclude Include="..\include\rttr\registration_friend.h" />
-    <ClInclude Include="..\include\rttr\rttr_cast.h" />
-    <ClInclude Include="..\include\rttr\rttr_enable.h" />
-    <ClInclude Include="..\include\rttr\sequential_mapper.h" />
-    <ClInclude Include="..\include\rttr\string_view.h" />
-    <ClInclude Include="..\include\rttr\type.h" />
-    <ClInclude Include="..\include\rttr\type_list.h" />
-    <ClInclude Include="..\include\rttr\variant.h" />
-    <ClInclude Include="..\include\rttr\variant_associative_view.h" />
-    <ClInclude Include="..\include\rttr\variant_sequential_view.h" />
-    <ClInclude Include="..\include\rttr\visitor.h" />
-    <ClInclude Include="..\include\rttr\wrapper_mapper.h" />
-    <ClInclude Include="..\include\SOIL\image_DXT.h" />
-    <ClInclude Include="..\include\SOIL\image_helper.h" />
-    <ClInclude Include="..\include\SOIL\SOIL.h" />
-    <ClInclude Include="..\include\SOIL\stbi_DDS_aug.h" />
-    <ClInclude Include="..\include\SOIL\stbi_DDS_aug_c.h" />
-    <ClInclude Include="..\include\SOIL\stb_image_aug.h" />
+    <ClInclude Include="..\imgui\ImZoomSlider.h" />
+    <ClInclude Include="..\include\freetype\dlg\dlg.h" />
+    <ClInclude Include="..\include\freetype\dlg\output.h" />
+    <ClInclude Include="..\include\freetype\freetype\config\ftconfig.h" />
+    <ClInclude Include="..\include\freetype\freetype\config\ftheader.h" />
+    <ClInclude Include="..\include\freetype\freetype\config\ftmodule.h" />
+    <ClInclude Include="..\include\freetype\freetype\config\ftoption.h" />
+    <ClInclude Include="..\include\freetype\freetype\config\ftstdlib.h" />
+    <ClInclude Include="..\include\freetype\freetype\config\integer-types.h" />
+    <ClInclude Include="..\include\freetype\freetype\config\mac-support.h" />
+    <ClInclude Include="..\include\freetype\freetype\config\public-macros.h" />
+    <ClInclude Include="..\include\freetype\freetype\freetype.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftadvanc.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftbbox.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftbdf.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftbitmap.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftbzip2.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftcache.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftchapters.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftcid.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftcolor.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftdriver.h" />
+    <ClInclude Include="..\include\freetype\freetype\fterrdef.h" />
+    <ClInclude Include="..\include\freetype\freetype\fterrors.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftfntfmt.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftgasp.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftglyph.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftgxval.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftgzip.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftimage.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftincrem.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftlcdfil.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftlist.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftlogging.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftlzw.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftmac.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftmm.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftmodapi.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftmoderr.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftotval.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftoutln.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftparams.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftpfr.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftrender.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftsizes.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftsnames.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftstroke.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftsynth.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftsystem.h" />
+    <ClInclude Include="..\include\freetype\freetype\fttrigon.h" />
+    <ClInclude Include="..\include\freetype\freetype\fttypes.h" />
+    <ClInclude Include="..\include\freetype\freetype\ftwinfnt.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\autohint.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\cffotypes.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\cfftypes.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\compiler-macros.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftcalc.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftdebug.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftdrv.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftgloadr.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\fthash.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftmemory.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftmmtypes.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftobjs.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftpsprop.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftrfork.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftserv.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftstream.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\fttrace.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\ftvalid.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\psaux.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\pshints.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svbdf.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svcfftl.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svcid.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svfntfmt.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svgldict.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svgxval.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svkern.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svmetric.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svmm.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svotval.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svpfr.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svpostnm.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svprop.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svpscmap.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svpsinfo.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svsfnt.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svttcmap.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svtteng.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svttglyf.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svwinfnt.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\sfnt.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\svginterface.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\t1types.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\tttypes.h" />
+    <ClInclude Include="..\include\freetype\freetype\internal\wofftypes.h" />
+    <ClInclude Include="..\include\freetype\freetype\otsvg.h" />
+    <ClInclude Include="..\include\freetype\freetype\t1tables.h" />
+    <ClInclude Include="..\include\freetype\freetype\ttnameid.h" />
+    <ClInclude Include="..\include\freetype\freetype\tttables.h" />
+    <ClInclude Include="..\include\freetype\freetype\tttags.h" />
+    <ClInclude Include="..\include\freetype\ft2build.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraComponent.h" />
-    <ClInclude Include="component.h" />
+    <ClInclude Include="ComponentFile.h" />
     <ClInclude Include="ComponentLoader.h" />
-    <ClInclude Include="ComponentRegistry.h" />
-    <ClInclude Include="ContentBrowser.h" />
-    <ClInclude Include="EntityPanel.h" />
-    <ClInclude Include="EntityRegistry.h" />
-    <ClInclude Include="Gizmos.h" />
     <ClInclude Include="imguiLoader.h" />
-    <ClInclude Include="InspectorPanel.h" />
-    <ClInclude Include="LayerComponent.h" />
-    <ClInclude Include="meshRenderComponent.h" />
-    <ClInclude Include="MeshRenderSystem.h" />
-    <ClInclude Include="ObjectPicking.h" />
-    <ClInclude Include="Registry.h" />
-    <ClInclude Include="SpriteRenderComponent.h" />
-    <ClInclude Include="SpriteRenderSystem.h" />
+    <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="ScenePanel.h" />
-    <ClInclude Include="selectionComponent.h" />
+    <ClInclude Include="ScriptingAPI.h" />
     <ClInclude Include="shader_s.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="texture_s.h" />
-    <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TransformSystem.h" />
-    <ClInclude Include="WejseRenderer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\include\rttr\CMakeLists.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\include\rttr\registration" />
-    <None Include="..\include\rttr\registration_friend" />
-    <None Include="..\include\rttr\rttr.cmake" />
-    <None Include="..\include\rttr\type" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

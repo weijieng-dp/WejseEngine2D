@@ -13,17 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\ECS">
-      <UniqueIdentifier>{c83aeed8-1637-4cca-a27c-3d2b24130637}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Graphic">
       <UniqueIdentifier>{f50c46b3-1ccf-40bb-a3bb-d1a490fd8c3a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{1887aeeb-d190-4534-b673-69ead637f1fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\imgui">
-      <UniqueIdentifier>{caa74fdd-ea12-4807-a78f-12eb927a38d7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\graphic">
       <UniqueIdentifier>{3cd83dca-3d30-4f6d-803c-b36a8ddadf20}</UniqueIdentifier>
@@ -31,36 +25,21 @@
     <Filter Include="Source Files\System">
       <UniqueIdentifier>{2c5c4f90-49f4-4308-97d4-01f6076344a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Camera">
-      <UniqueIdentifier>{bfd91c21-024c-43d5-b159-e7152d287e91}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\SOIL">
-      <UniqueIdentifier>{dceb724f-d6a0-44d8-8f5c-c22fa5bb2be9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphic\EditorLayout">
-      <UniqueIdentifier>{762b5c9f-6acb-4b80-bdbc-61008749052e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphic\RenderSystem">
-      <UniqueIdentifier>{c55c5f24-1c2c-4141-a879-4891091c2ea9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\RTTR">
-      <UniqueIdentifier>{f02d66bb-a2cf-4f39-9cdc-501ffd6cf337}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphic\SOIL">
-      <UniqueIdentifier>{c4321368-f0e5-438a-9a1e-a022e8bff30f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ECS\Components">
-      <UniqueIdentifier>{bb6378fb-b601-48ea-86b0-45f24efb7f9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ECS\System">
+    <Filter Include="Header Files\System">
       <UniqueIdentifier>{2f8557ff-4f01-4445-96c1-68d0596adb7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\plugins">
+      <UniqueIdentifier>{ab3c0732-5ed8-466a-bab0-bbe905e355eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\plugins\FreeType">
+      <UniqueIdentifier>{d7308f47-7cf3-4714-a9ca-70d0ad64692b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\plugins\imgui">
+      <UniqueIdentifier>{caa74fdd-ea12-4807-a78f-12eb927a38d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\imgui\imgui.cpp">
@@ -87,193 +66,70 @@
     <ClCompile Include="imguiLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectPicking.cpp">
-      <Filter>Source Files\graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="WejseRenderer.cpp">
-      <Filter>Source Files\graphic</Filter>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
-      <Filter>Source Files\System</Filter>
+      <Filter>Source Files\graphic</Filter>
     </ClCompile>
     <ClCompile Include="TransformSystem.cpp">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\SOIL\SOIL.c">
-      <Filter>Source Files\SOIL</Filter>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files\graphic</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\SOIL\stb_image_aug.c">
-      <Filter>Source Files\SOIL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\SOIL\image_DXT.c">
-      <Filter>Source Files\SOIL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\SOIL\image_helper.c">
-      <Filter>Source Files\SOIL</Filter>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MeshRenderSystem.cpp">
-      <Filter>Source Files\System</Filter>
+    <ClCompile Include="..\imgui\ImGradient.cpp">
+      <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\rttr\constructor.cpp">
-      <Filter>Header Files\RTTR</Filter>
+    <ClCompile Include="..\imgui\ImGuizmo.cpp">
+      <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\rttr\destructor.cpp">
-      <Filter>Header Files\RTTR</Filter>
+    <ClCompile Include="..\imgui\ImSequencer.cpp">
+      <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\rttr\enumeration.cpp">
-      <Filter>Header Files\RTTR</Filter>
+    <ClCompile Include="..\imgui\GraphEditor.cpp">
+      <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\rttr\library.cpp">
-      <Filter>Header Files\RTTR</Filter>
+    <ClCompile Include="..\imgui\ImCurveEdit.cpp">
+      <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\rttr\method.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\parameter_info.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\policy.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\property.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\registration.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\type.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\variant.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\variant_associative_view.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\variant_sequential_view.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\visitor.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\comparison\compare_equal.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\comparison\compare_less.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\constructor\constructor_wrapper_base.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\conversion\std_conversion_functions.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\destructor\destructor_wrapper_base.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\enumeration\enumeration_helper.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\enumeration\enumeration_wrapper_base.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\library\library_unix.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\library\library_win.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\method\method_wrapper_base.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\misc\standard_types.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\parameter_info\parameter_info_wrapper_base.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\property\property_wrapper_base.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\registration\registration_executer.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\registration\registration_state_saver.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\type\type_data.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\type\type_register.cpp">
-      <Filter>Header Files\RTTR</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\rttr\detail\variant\variant_compare.cpp">
-      <Filter>Header Files\RTTR</Filter>
+    <ClCompile Include="ScriptingAPI.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="component.h">
-      <Filter>Header Files\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRenderComponent.h">
-      <Filter>Header Files\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>Header Files\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="WejseRenderer.h">
-      <Filter>Header Files\Graphic</Filter>
-    </ClInclude>
     <ClInclude Include="..\imgui\imconfig.h">
-      <Filter>Header Files\imgui</Filter>
+      <Filter>Header Files\plugins\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imgui.h">
-      <Filter>Header Files\imgui</Filter>
+      <Filter>Header Files\plugins\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imgui_impl_glfw.h">
-      <Filter>Header Files\imgui</Filter>
+      <Filter>Header Files\plugins\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imgui_impl_opengl3.h">
-      <Filter>Header Files\imgui</Filter>
+      <Filter>Header Files\plugins\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imgui_impl_opengl3_loader.h">
-      <Filter>Header Files\imgui</Filter>
+      <Filter>Header Files\plugins\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imgui_internal.h">
-      <Filter>Header Files\imgui</Filter>
+      <Filter>Header Files\plugins\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imstb_rectpack.h">
-      <Filter>Header Files\imgui</Filter>
+      <Filter>Header Files\plugins\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imstb_textedit.h">
-      <Filter>Header Files\imgui</Filter>
+      <Filter>Header Files\plugins\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imstb_truetype.h">
-      <Filter>Header Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectPicking.h">
-      <Filter>Header Files\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRenderSystem.h">
-      <Filter>Header Files\Graphic\RenderSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityRegistry.h">
-      <Filter>Header Files\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="Registry.h">
-      <Filter>Header Files\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="selectionComponent.h">
-      <Filter>Header Files\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentRegistry.h">
-      <Filter>Header Files\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentLoader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\plugins\imgui</Filter>
     </ClInclude>
     <ClInclude Include="shader_s.h">
       <Filter>Header Files\Graphic</Filter>
@@ -281,501 +137,356 @@
     <ClInclude Include="texture_s.h">
       <Filter>Header Files\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SOIL\SOIL.h">
-      <Filter>Header Files\Graphic\SOIL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SOIL\stbi_DDS_aug_c.h">
-      <Filter>Header Files\Graphic\SOIL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SOIL\image_DXT.h">
-      <Filter>Header Files\Graphic\SOIL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SOIL\image_helper.h">
-      <Filter>Header Files\Graphic\SOIL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SOIL\stb_image_aug.h">
-      <Filter>Header Files\Graphic\SOIL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SOIL\stbi_DDS_aug.h">
-      <Filter>Header Files\Graphic\SOIL</Filter>
-    </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\freetype\ft2build.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\dlg\dlg.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\dlg\output.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\config\ftconfig.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\config\ftheader.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\config\ftmodule.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\config\ftoption.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\config\ftstdlib.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\config\integer-types.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\config\mac-support.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\config\public-macros.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\freetype.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftadvanc.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftbbox.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftbdf.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftbitmap.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftbzip2.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftcache.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftchapters.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftcid.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftcolor.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftdriver.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\fterrdef.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\fterrors.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftfntfmt.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftgasp.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftglyph.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftgxval.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftgzip.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftimage.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftincrem.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftlcdfil.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftlist.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftlogging.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftlzw.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftmac.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftmm.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftmodapi.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftmoderr.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftotval.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftoutln.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftparams.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftpfr.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftrender.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftsizes.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftsnames.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftstroke.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftsynth.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftsystem.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\fttrigon.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\fttypes.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ftwinfnt.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\autohint.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\cffotypes.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\cfftypes.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\compiler-macros.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftcalc.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftdebug.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftdrv.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftgloadr.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\fthash.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftmemory.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftmmtypes.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftobjs.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftpsprop.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftrfork.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftserv.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftstream.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\fttrace.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\ftvalid.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\psaux.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\pshints.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svbdf.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svcfftl.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svcid.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svfntfmt.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svgldict.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svgxval.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svkern.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svmetric.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svmm.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svotval.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svpfr.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svpostnm.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svprop.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svpscmap.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svpsinfo.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svsfnt.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svttcmap.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svtteng.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svttglyf.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\services\svwinfnt.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\sfnt.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\svginterface.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\t1types.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\tttypes.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\internal\wofftypes.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\otsvg.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\t1tables.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\ttnameid.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\tttables.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\freetype\freetype\tttags.h">
+      <Filter>Header Files\plugins\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="imguiLoader.h">
-      <Filter>Header Files\Graphic\EditorLayout</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ContentBrowser.h">
-      <Filter>Header Files\Graphic\EditorLayout</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityPanel.h">
-      <Filter>Header Files\Graphic\EditorLayout</Filter>
-    </ClInclude>
-    <ClInclude Include="InspectorPanel.h">
-      <Filter>Header Files\Graphic\EditorLayout</Filter>
-    </ClInclude>
-    <ClInclude Include="ScenePanel.h">
-      <Filter>Header Files\Graphic\EditorLayout</Filter>
-    </ClInclude>
-    <ClInclude Include="meshRenderComponent.h">
-      <Filter>Header Files\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRenderSystem.h">
-      <Filter>Header Files\Graphic\RenderSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\argument.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\array_range.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\associative_mapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\constructor.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\destructor.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\enum_flags.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\enumeration.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\filter_item.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\instance.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\library.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\method.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\parameter_info.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\policy.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\property.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\registration.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\registration_friend.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\rttr_cast.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\rttr_enable.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\sequential_mapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\string_view.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\type.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\type_list.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\variant.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\variant_associative_view.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\variant_sequential_view.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\visitor.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\wrapper_mapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\base\core_prerequisites.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\base\pch.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\base\version.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\comparison\comparable_types.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_array_equal.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_array_equal_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_array_less.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_array_less_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_equal.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_equal_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_less.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\comparison\compare_less_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\constructor\constructor_invoker.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\constructor\constructor_wrapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\constructor\constructor_wrapper_base.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\constructor\constructor_wrapper_defaults.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\conversion\number_conversion.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\conversion\std_conversion_functions.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\default_arguments\default_arguments.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\default_arguments\invoke_with_defaults.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\destructor\destructor_wrapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\destructor\destructor_wrapper_base.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\enumeration\enumeration_helper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\enumeration\enumeration_wrapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\enumeration\enumeration_wrapper_base.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\enumeration\enum_data.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\filter\filter_item_funcs.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\impl\argument_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\impl\array_range_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\impl\associative_mapper_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\impl\enum_flags_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\impl\instance_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\impl\rttr_cast_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\impl\sequential_mapper_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\impl\string_view_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\impl\wrapper_mapper_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\library\library_p.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\metadata\metadata.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\metadata\metadata_handler.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\method\method_accessor.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\method\method_invoker.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\method\method_wrapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\method\method_wrapper_base.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\argument_extractor.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\argument_wrapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\class_item_mapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\data_address_container.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\flat_map.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\flat_multimap.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\function_traits.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\iterator_wrapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\misc_type_traits.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\register_wrapper_mapper_conversion.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\sequential_container_type_traits.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\std_type_traits.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\template_type_trait.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\template_type_trait_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\misc\utility.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\parameter_info\parameter_infos.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\parameter_info\parameter_infos_compare.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\parameter_info\parameter_info_wrapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\parameter_info\parameter_info_wrapper_base.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\parameter_info\parameter_names.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\policies\ctor_policies.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\policies\meth_policies.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\policies\prop_policies.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\property\property_accessor.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper_base.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper_func.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper_member_func.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper_member_object.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\property\property_wrapper_object.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\registration\bind_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\registration\bind_types.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\registration\register_base_class_from_accessor.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\registration\registration_executer.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\registration\registration_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\registration\registration_manager.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\registration\registration_state_saver.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\accessor_type.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\base_classes.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\get_create_variant_func.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\get_derived_info_func.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\type_comparator.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\type_converter.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\type_data.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\type_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\type_name.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\type_register.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\type_register_p.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\type\type_string_utils.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant\variant_compare.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant\variant_data.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant\variant_data_converter.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant\variant_data_policy.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant\variant_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant_associative_view\variant_associative_view_creator.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant_associative_view\variant_associative_view_creator_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant_associative_view\variant_associative_view_private.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant_sequential_view\variant_sequential_view_creator.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant_sequential_view\variant_sequential_view_creator_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\variant_sequential_view\variant_sequential_view_private.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\visitor\constructor_visitor_invoker.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\visitor\create_type_visitor_func.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\visitor\create_type_visitor_func_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\visitor\method_visitor_invoker.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\visitor\property_visitor_invoker.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\visitor\type_visitor_invoker.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\visitor\visitor_impl.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\visitor\visitor_iterator.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\detail\visitor\visitor_registration.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\rttr\access_levels.h">
-      <Filter>Header Files\RTTR</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraComponent.h">
-      <Filter>Header Files\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="LayerComponent.h">
-      <Filter>Header Files\ECS\Components</Filter>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files\plugins</Filter>
     </ClInclude>
     <ClInclude Include="TransformSystem.h">
-      <Filter>Header Files\ECS\System</Filter>
+      <Filter>Header Files\System</Filter>
     </ClInclude>
-    <ClInclude Include="Gizmos.h">
-      <Filter>Header Files\Graphic</Filter>
+    <ClInclude Include="RenderSystem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\include\rttr\CMakeLists.txt">
-      <Filter>Header Files\RTTR</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\include\rttr\registration">
-      <Filter>Header Files\RTTR</Filter>
-    </None>
-    <None Include="..\include\rttr\registration_friend">
-      <Filter>Header Files\RTTR</Filter>
-    </None>
-    <None Include="..\include\rttr\rttr.cmake">
-      <Filter>Header Files\RTTR</Filter>
-    </None>
-    <None Include="..\include\rttr\type">
-      <Filter>Header Files\RTTR</Filter>
-    </None>
+    <ClInclude Include="..\imgui\ImCurveEdit.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\ImGradient.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\ImGuizmo.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\ImSequencer.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\ImZoomSlider.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\GraphEditor.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptingAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

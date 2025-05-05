@@ -1,0 +1,17 @@
+{
+    "Assets/Scenes/Tutorial.txt": {
+        "completed": true,
+        "score": 0.0,
+        "deathCounter": 0
+    },
+    "Assets/Scenes/Level 1.txt": {
+        "completed": true,
+        "score": 0.3248598873615265,
+        "deathCounter": 82
+    },
+    "Assets/Scenes/TutorialDark.txt": {
+        "completed": false,
+        "score": 0.0,
+        "deathCounter": 0
+    }
+}

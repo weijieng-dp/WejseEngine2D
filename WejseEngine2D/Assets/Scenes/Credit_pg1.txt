@@ -1,0 +1,136 @@
+{
+    "entities": [
+        {
+            "ID": 1,
+            "Selection Component": {},
+            "Transform Component": {
+                "Translate": [
+                    271.999755859375,
+                    88.99978637695313,
+                    0.0
+                ],
+                "Rotation": 0.0,
+                "Scale": [
+                    250.0,
+                    250.0,
+                    1.0
+                ]
+            },
+            "Name Component": {
+                "name": "Entities"
+            },
+            "Active Component": {
+                "Active": true
+            },
+            "Mesh Render Component": {
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "shape": "square"
+            },
+            "Anchor Component": {
+                "AnchoredTo": "Center"
+            }
+        },
+        {
+            "ID": 3,
+            "Selection Component": {},
+            "Transform Component": {
+                "Translate": [
+                    -0.000003814697265625,
+                    -23.999996185302734,
+                    0.0
+                ],
+                "Rotation": 0.0,
+                "Scale": [
+                    250.0,
+                    250.0,
+                    1.0
+                ]
+            },
+            "Name Component": {
+                "name": "Entities"
+            },
+            "Active Component": {
+                "Active": true
+            },
+            "Mesh Render Component": {
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "shape": "square"
+            },
+            "Anchor Component": {
+                "AnchoredTo": "Center"
+            }
+        },
+        {
+            "ID": 4,
+            "Selection Component": {},
+            "Transform Component": {
+                "Translate": [
+                    476.0,
+                    0.0,
+                    0.0
+                ],
+                "Rotation": 0.0,
+                "Scale": [
+                    250.0,
+                    250.0,
+                    1.0
+                ]
+            },
+            "Name Component": {
+                "name": "Entities"
+            },
+            "Active Component": {
+                "Active": true
+            },
+            "Mesh Render Component": {
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "shape": "square"
+            },
+            "Anchor Component": {
+                "AnchoredTo": "Center"
+            },
+            "test123": {
+                "speed": 1
+            }
+        },
+        {
+            "ID": 5,
+            "Selection Component": {},
+            "Transform Component": {
+                "Translate": [
+                    476.0,
+                    0.0,
+                    0.0
+                ],
+                "Rotation": 0.0,
+                "Scale": [
+                    250.0,
+                    250.0,
+                    1.0
+                ]
+            },
+            "Name Component": {
+                "name": "Entities"
+            },
+            "Active Component": {
+                "Active": true
+            },
+            "Camera Component": {},
+            "Anchor Component": {
+                "AnchoredTo": "Center"
+            }
+        }
+    ]
+}

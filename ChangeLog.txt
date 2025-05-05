@@ -1,0 +1,23 @@
+# Wejse Engine Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [0.0.2] - 2025-01-12
+
+### Changed
+- Refactored the Entity Panel to improve readability
+- Play Button would be Right Shift and Equal key Now
+- Finished Refactoring imgui Loader
+
+
+### Fixed
+- the scene will save before you play
+- Prompt you for Camera Component, if you dont have it
+- mesh renderer displaying wrong name for shapes
+- Fixed camera aspect issue
+
+### Added
+- added Active Component can enable and disable via checking the box beside name
+
+
+

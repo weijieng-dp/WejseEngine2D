@@ -61,7 +61,8 @@
 //  2020-04-12: OpenGL: Fixed context version check mistakenly testing for 4.0+ instead of 3.2+ to enable ImGuiBackendFlags_RendererHasVtxOffset.
 //  2020-03-24: OpenGL: Added support for glbinding 2.x OpenGL loader.
 //  2020-01-07: OpenGL: Added support for glbinding 3.x OpenGL loader.
-//  2019-10-25: OpenGL: Using a combination of GL define and runtime GL version to decide whether to use glDrawElementsBaseVertex(). Fix building with pre-3.2 GL loaders.
+//  2019-10-25: OpenGL: Using a combination of GL define and runtime GL version to decide whether to use 
+// (). Fix building with pre-3.2 GL loaders.
 //  2019-09-22: OpenGL: Detect default GL loader using __has_include compiler facility.
 //  2019-09-16: OpenGL: Tweak initialization code to allow application calling ImGui_ImplOpenGL3_CreateFontsTexture() before the first NewFrame() call.
 //  2019-05-29: OpenGL: Desktop GL only: Added support for large mesh (64K+ vertices), enable ImGuiBackendFlags_RendererHasVtxOffset flag.

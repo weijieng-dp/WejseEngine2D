@@ -1,0 +1,13 @@
+===============How to Load Scene=====================
+
+1. when start open scene in content browser
+
+2. Drag any .txt onto the viewport
+
+=====================================================
+
+============How to Play and stop Scene===============
+
+1. press right shift and equal key to start and stop
+
+=====================================================
