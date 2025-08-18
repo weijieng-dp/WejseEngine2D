@@ -7,7 +7,7 @@
 #include <memory>
 #include <functional>
 #include <iostream>
-#define RTTR_DLL
+#include <limits>
 #include "rttr/type.h"
 
 
@@ -21,29 +21,32 @@
 #define REGISTRY_API  // Other platforms don't need this
 #endif
 
+
+#define NULL_INDEX std::numeric_limits<size_t>::max()
+
 // =====================================
 // =      Start of EntityRegistry      =
 // =====================================
 class REGISTRY_API EntityRegistry
 {
 public:
-	using Entity = uint32_t;
+    using Entity = uint32_t;
 
-	Entity createEntityID();
+    Entity createEntityID();
 
     Entity createEntityID(int ID);
 
-	void restartEntityCount();
+    void restartEntityCount();
 
-	void destroyEntity(Entity entity);
+    void destroyEntity(Entity entity);
 
-	void addEntity(Entity entity, const std::string& name = "");
+    void addEntity(Entity entity, const std::string& name = "");
 
-	std::vector<Entity> getAllEntity();
+    std::vector<Entity> getAllEntity();
 
 private:
-	Entity nextId = 0;                 
-	std::unordered_set<Entity> allEntities;  
+    Entity nextId = 0;
+    std::unordered_set<Entity> allEntities;
 };
 
 // =====================================
@@ -51,9 +54,9 @@ private:
 // =====================================
 class IComponentStorage {
 public:
-	virtual ~IComponentStorage() = default;
-	virtual void remove(EntityRegistry::Entity entity) = 0; // Ensure this exists
-	virtual rttr::instance getCompFromEntity(EntityRegistry::Entity entity) = 0; // Add this method
+    virtual ~IComponentStorage() = default;
+    virtual void remove(EntityRegistry::Entity entity) = 0; // Ensure this exists
+    virtual rttr::instance getCompFromEntity(EntityRegistry::Entity entity) = 0; // Add this method
     virtual void clear() = 0;
 
 };
@@ -62,54 +65,103 @@ public:
 template <typename Component>
 class ComponentStorage : public IComponentStorage {
 public:
-	void add(EntityRegistry::Entity entity, Component component) 
-	{
-		components[entity] = std::move(component);
-	}
+    void add(EntityRegistry::Entity entity, Component component)
+    {
+        //components[entity] = std::move(component);
+        if (entity >= sparseSet.size())
+        {
+            sparseSet.resize(entity + 1, NULL_INDEX);
+        }
 
-	void remove(EntityRegistry::Entity entity) 
-	{
-		components.erase(entity);
-	}
+        if (sparseSet[entity-1] != NULL_INDEX) {
+            // Update existing component
+            denseSet[sparseSet[entity-1]] = std::move(component);
+            return;
+        }
 
-	Component* get(EntityRegistry::Entity entity) 
-	{
-		if (components.find(entity) != components.end()) {
-			return &components[entity];
-		}
-		return nullptr;
-	}
+        sparseSet[entity-1] = denseSet.size();
+        denseSet.emplace_back(std::move(component));
+    }
 
-	rttr::instance getCompFromEntity(EntityRegistry::Entity entity) override 
-	{
-		auto it = components.find(entity);
-		if (it != components.end()) {
-			return rttr::instance(it->second);
-		}
-		return rttr::instance();  // Return an empty instance when not found
-	}
+    void remove(EntityRegistry::Entity entity)
+    {
+        // Safe bounds checking (no -1)
+        if (entity >= sparseSet.size() || sparseSet[entity-1] == NULL_INDEX) {
+            return;
+        }
 
-	const std::unordered_map<EntityRegistry::Entity, Component>& getComponents() const 
-	{
-		return components;
-	}
+        size_t removed_index = sparseSet[entity-1];
+        EntityRegistry::Entity last_entity = denseSet.size() - 1;
 
-	std::vector<EntityRegistry::Entity> getEntities() const
-	{
-		std::vector<EntityRegistry::Entity> result;
-		result.reserve(components.size());
-		for (const auto& pair : components) {
-			result.push_back(pair.first);
-		}
+        // If not removing the last element, perform swap
+        if (removed_index != last_entity) {
+            // Move last component to removed position
+            denseSet[removed_index] = std::move(denseSet.back());
+
+            // Update the entity that previously pointed to the last element
+            for (EntityRegistry::Entity e = 0; e < sparseSet.size(); ++e) {
+                if (sparseSet[e] == last_entity) {
+                    sparseSet[e] = removed_index;
+                    break;
+                }
+            }
+        }
+
+        // Remove the last element
+        denseSet.pop_back();
+        sparseSet[entity-1] = NULL_INDEX;
+    }
+
+    Component* get(EntityRegistry::Entity entity)
+    {
+        if (entity >= sparseSet.size()) return nullptr;
+        if (entity == 0) return nullptr;
+        size_t index = sparseSet[entity-1];
+        if (index != NULL_INDEX) {
+            return &denseSet[index];
+        }
+        return nullptr;
+    }
+
+    rttr::instance getCompFromEntity(EntityRegistry::Entity entity) override
+    {
+        if (entity >= sparseSet.size()) return rttr::instance();
+
+        size_t index = sparseSet[entity - 1];
+        if (index != NULL_INDEX) {
+            return rttr::instance(denseSet[index]);
+        }
+        return rttr::instance();
+    }
+
+    //const std::unordered_map<EntityRegistry::Entity, Component>& getComponents() const
+    //{
+    //    return components;
+    //}
+
+    std::vector<EntityRegistry::Entity> getEntities() const
+    {
+        std::vector<EntityRegistry::Entity> result;
+
+        for (int i = 0; i < sparseSet.size(); i++)
+        {
+            if (sparseSet[i] != NULL_INDEX)
+            {
+                result.push_back(i+1);
+            }
+        }
 		return result;
 	}
     
     void clear() override {
-        components.clear();
+        denseSet.clear();
+        sparseSet.clear();
     }
 
 private:
-	std::unordered_map<EntityRegistry::Entity, Component> components;
+
+    std::vector<size_t> sparseSet;
+    std::vector<Component> denseSet;
 };
 
 // =====================================
@@ -174,12 +226,10 @@ public:
     template <typename Component>
     std::vector<Entity> getEntitiesWithComponent() {
         std::vector<Entity> result;
-        auto* storage = getStorage<Component>();
+        auto storage = getStorage<Component>();
         if (!storage) return result;
 
-        for (auto& pair : storage->getComponents()) {
-            result.push_back(pair.first);
-        }
+        result = storage->getEntities();
         return result;
     }
 

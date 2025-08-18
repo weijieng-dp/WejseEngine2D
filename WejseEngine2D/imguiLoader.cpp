@@ -32,11 +32,11 @@ void renderDynamicUI(EntityRegistry::Entity ent)
 
 	auto components = registry.getAllComponentsRTTR(ent);
 
-
 	//auto comp = registry.getComponent<t>(ent);
 	// Get the type of the object dynamically
 	for (auto& instance : components)
 	{
+
 
 		rttr::type obj_type = rttr::type::get(instance);
 
@@ -45,6 +45,7 @@ void renderDynamicUI(EntityRegistry::Entity ent)
 			std::cout << "not valid" << std::endl;
 			continue;
 		}
+
 
 		if (obj_type == rttr::type::get<NameComponent>() || obj_type == rttr::type::get<ActiveComponent>()
 			|| obj_type == rttr::type::get<AnchorComponent>() || obj_type == rttr::type::get<selectionComponent>()
@@ -224,7 +225,10 @@ void renderDynamicUI(EntityRegistry::Entity ent)
 			if (ImGui::Button(("Delete Component ##" + obj_type.get_name().to_string()).c_str())) {
 				std::cout << "Delete button clicked for component: " << obj_type.get_name().to_string() << std::endl;
 				if (obj_type == rttr::type::get<lightComponent>()) registry.getComponent<lightComponent>(ent)->lightIntensity = 0;
+				//std::string obj_name = obj_type.get_name().to_string();
 				registry.removeComponent(ent, obj_type);
+
+
 			}
 
 		}
@@ -542,8 +546,8 @@ void selectEntities(std::vector<EntityRegistry::Entity> entities)
 
 		}
 
-		
-		if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_C,false))
+
+		if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_C, false))
 		{
 			if (selectComponent->selected)
 			{
@@ -639,27 +643,27 @@ void rescaleFramebuffer(GLsizei width, GLsizei height)
 {
 
 
-		glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 
-		glBindTexture(GL_TEXTURE_2D, texture_id);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_id, 0);
+	glBindTexture(GL_TEXTURE_2D, texture_id);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_id, 0);
 
-		glBindTexture(GL_TEXTURE_2D, pickingTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, pickingTexture, 0);
+	glBindTexture(GL_TEXTURE_2D, pickingTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, pickingTexture, 0);
 
-		glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
 }
 
@@ -688,7 +692,7 @@ void setScenePanelSize(GLsizei width, GLsizei Height)
 	Screenheight = static_cast<float>(Height);
 	ScreenWidth = static_cast<float>(width);
 	// we rescale the framebuffer to the actual window size here and reset the glViewport
- 
+
 	rescaleFramebuffer(width, Height);
 	glViewport(0, 0, width, Height);
 
@@ -701,7 +705,7 @@ void displayImagesOnScreen(GLsizei width, GLsizei height)
 	ImVec2 uv_min(0.0f, 1.0f); // (0, 1) for the top-left corner
 	ImVec2 uv_max(1.0f, 0.0f); // (1, 0) for the bottom-right corner
 
-	ImGui::Image((void*)(intptr_t)texture_id, ImVec2((float)width, (float)height),uv_min,uv_max);
+	ImGui::Image((void*)(intptr_t)texture_id, ImVec2((float)width, (float)height), uv_min, uv_max);
 }
 
 void loadAndPlayScene(const char* path)
@@ -793,7 +797,7 @@ void moveSelectedEntity()
 
 			glm::mat4 cameraView = cam.getviewmatrix();
 			glm::mat4 cameraProjection = glm::ortho(-ScreenWidth / 2.0f, ScreenWidth / 2.0f, -Screenheight / 2.0f, Screenheight / 2.0f, -1.0f, 1.0f);
-			
+
 			auto transformComp = registry.getComponent<TransformComponent>(ent);
 			glm::mat4 transformMatrix = transformComp->transform;
 
@@ -827,7 +831,7 @@ void moveSelectedEntity()
 			}
 			//moveEntity(ent);
 
-			
+
 		}
 	}
 }
@@ -884,27 +888,27 @@ void renderScenePanel(std::string SceneName)
 
 
 
-		
+
 		ImGui::Begin(SceneName.c_str());
 
-			if (isPaused)
+		if (isPaused)
+		{
+			if (ImGui::Button("Pause"))
 			{
-				if (ImGui::Button("Pause"))
-				{
-					isPlaying = true;
-					isPaused = false;
-				}
+				isPlaying = true;
+				isPaused = false;
 			}
-			else
+		}
+		else
+		{
+			if (ImGui::Button("Play"))
 			{
-				if (ImGui::Button("Play"))
-				{
-					isPlaying = true;
-					isPaused = true;
+				isPlaying = true;
+				isPaused = true;
 
-				}
 			}
-		
+		}
+
 		ImGui::SameLine();
 
 		if (ImGui::Button("Stop"))
@@ -961,7 +965,8 @@ void unbindFramebuffer()
 
 constexpr char AssetsDirectory[] = "Assets";
 static std::filesystem::path m_currentDirectory = AssetsDirectory;
-
+static bool openScriptPopup = false;
+static char scriptNameBuffer[128] = ""; // buffer to hold the script name
 
 void renderNavigationButton() {
 	if (m_currentDirectory.string() != AssetsDirectory) {
@@ -996,13 +1001,121 @@ void renderDirectoryContents() {
 	}
 }
 
+void CreateScript(const char* name)
+{
+	// Replace this with your actual script creation logic
+
+	printf("Creating script: %s\n", name);
+
+	std::string dir = "../ComponentLoader/Scripts/";
+	dir += name;
+	dir += ".h";
+
+	std::ofstream os(dir);
+	if (os.fail())
+	{
+		std::cout << "failed to find directory. please include directory and try again\n";
+	}
+
+
+	std::string stringtocopy = R"(
+#pragma once
+
+#include "ScriptingAPI.h"
+#include "ComponentFile.h"
+#include "Registry.h"
+#include "wejseRenderer.h"
+
+class )";
+
+	os << stringtocopy << name << "  : public Script";
+
+	 stringtocopy = R"(
+{
+public:
+
+
+	UPROPERTY
+	int demo = 1;
+
+	void OnStart() {
+	
+	}
+
+	void OnUpdate() {
+
+	
+	}
+
+
+	void hello()
+	{
+	}
+	RTTR_ENABLE(Script)
+};
+
+)";
+	os << stringtocopy;
+
+	os.close();
+}
+
+// Inside your ImGui rendering loop
+void ShowScriptCreatorUI()
+{
+	// Right-click detection (anywhere in the window)
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && !ImGui::IsAnyItemHovered())
+	{
+		openScriptPopup = true;
+		ImGui::OpenPopup("ScriptPopup");
+		ImGui::SetNextWindowPos(ImGui::GetMousePos()); // optional: open where you click
+	}
+
+	// Create popup (not modal)
+	if (ImGui::BeginPopup("ScriptPopup"))
+	{
+		ImGui::Text("Enter Script Name:");
+		ImGui::InputText("##ScriptName", scriptNameBuffer, IM_ARRAYSIZE(scriptNameBuffer));
+
+		if (ImGui::Button("Create Script"))
+		{
+			if (strlen(scriptNameBuffer) > 0)
+			{
+				const auto& types = Componentregistry.getComponentTypes();
+				if (std::find(types.begin(), types.end(), scriptNameBuffer) != types.end())
+				{
+					std::cout << "Same name detected: " << scriptNameBuffer << ". Script creation failed.\n";
+					ImGui::EndPopup();
+					return;
+				}
+
+
+				CreateScript(scriptNameBuffer);
+				scriptNameBuffer[0] = '\0'; // Clear after use
+				ImGui::CloseCurrentPopup();
+			}
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel"))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
+
+	// Optional: Reset flag
+	if (openScriptPopup)
+		openScriptPopup = false;
+}
 
 void renderContentPanel() {
 	ImGui::Begin("Content");
 
 	renderNavigationButton();
 	renderDirectoryContents();
-
+	ShowScriptCreatorUI();
 	ImGui::End();
 }
 
@@ -1129,7 +1242,7 @@ void updateImGui()
 	if (GetKeyTriggered(GLFW_KEY_F))
 	{
 		auto entity = registry.getEntitiesWithComponent<selectionComponent>();
-		for (auto& ent : entity) 
+		for (auto& ent : entity)
 		{
 			auto slection = registry.getComponent<selectionComponent>(ent);
 			if (slection->selected)

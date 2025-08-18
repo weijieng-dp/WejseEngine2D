@@ -279,8 +279,8 @@ void SceneManager::LoadScene(const char* filepath)
 
 			rttr::type obj_type = rttr::type::get_by_name(type);
 
-
-			if (!entJson.HasMember(obj_type.get_name().to_string().c_str()) || !entJson[obj_type.get_name().to_string().c_str()].IsObject())
+			std::string obj_name = obj_type.get_name().to_string();
+			if (!entJson.HasMember(obj_name.c_str()) || !entJson[obj_name.c_str()].IsObject())
 			{
 				continue;
 			}
@@ -301,7 +301,7 @@ void SceneManager::LoadScene(const char* filepath)
 
 			// Iterate through the JSON object
 
-			for (auto& member : entJson[obj_type.get_name().to_string().c_str()].GetObject()) {
+			for (auto& member : entJson[obj_name.c_str()].GetObject()) {
 
 				const std::string prop_name = member.name.GetString();
 				const rapidjson::Value& prop_value = member.value;

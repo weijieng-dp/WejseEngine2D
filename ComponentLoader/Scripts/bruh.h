@@ -5,21 +5,29 @@
 #include "Registry.h"
 #include "wejseRenderer.h"
 
-class test123 : public Script
+
+class bruh : public Script
 {
 public:
+
+	UPROPERTY
+	float bruh2 = 0;
+
 	UPROPERTY
 	int speed = 1;
 
-	void OnStart() {  }
+	void OnStart() {
+	
+	}
+
 	void OnUpdate() {
 		Registry& registry = Registry::instance();
-		auto entity = registry.getEntitiesWithComponent<test123>();
+		auto entity = registry.getEntitiesWithComponent<bruh>();
 
 		for (auto ent : entity)
 		{
 			auto transform = registry.getComponent<TransformComponent>(ent);
-			//transform->translate.x +=  speed * WejseGetDT();
+			transform->translate.x +=  speed * static_cast<float>(WejseGetDT());
 			//std::cout << "hello" << std::endl;
 			hello();
 		}

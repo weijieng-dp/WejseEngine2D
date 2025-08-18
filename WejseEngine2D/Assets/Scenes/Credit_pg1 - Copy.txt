@@ -1,0 +1,69 @@
+{
+    "entities": [
+        {
+            "ID": 1,
+            "Selection Component": {},
+            "Transform Component": {
+                "Translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Rotation": 0.0,
+                "Scale": [
+                    250.0,
+                    250.0,
+                    1.0
+                ]
+            },
+            "Name Component": {
+                "name": "Entities"
+            },
+            "Anchor Component": {
+                "AnchoredTo": "Center"
+            },
+            "Active Component": {
+                "Active": true
+            },
+            "Sprite Render Component": {
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Texture": "Assets/PlanetTexture.png"
+            },
+            "bruh2": {
+                "bruh": 0.0,
+                "speed": 1
+            }
+        },
+        {
+            "ID": 2,
+            "Selection Component": {},
+            "Transform Component": {
+                "Translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Rotation": 0.0,
+                "Scale": [
+                    250.0,
+                    250.0,
+                    1.0
+                ]
+            },
+            "Name Component": {
+                "name": "Entities"
+            },
+            "Camera Component": {},
+            "Anchor Component": {
+                "AnchoredTo": "Center"
+            },
+            "Active Component": {
+                "Active": true
+            }
+        }
+    ]
+}

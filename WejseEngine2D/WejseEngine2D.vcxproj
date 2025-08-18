@@ -75,7 +75,7 @@
     <LibraryPath>$(SolutionDir)lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\weiji\Documents\GitHub\Gam150\CoreLib;$(SolutionDir)include;$(SolutionDir)include\freetype;$(SolutionDir)Assets;$(SolutionDir)imgui;$(SolutionDir)include\FMOD;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CoreLib;$(SolutionDir)include;$(SolutionDir)include\freetype;$(SolutionDir)Assets;$(SolutionDir)imgui;$(SolutionDir)include\FMOD;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

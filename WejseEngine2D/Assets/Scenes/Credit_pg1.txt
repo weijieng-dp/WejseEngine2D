@@ -35,7 +35,7 @@
             }
         },
         {
-            "ID": 3,
+            "ID": 2,
             "Selection Component": {},
             "Transform Component": {
                 "Translate": [
@@ -69,7 +69,7 @@
             }
         },
         {
-            "ID": 4,
+            "ID": 3,
             "Selection Component": {},
             "Transform Component": {
                 "Translate": [
@@ -106,7 +106,7 @@
             }
         },
         {
-            "ID": 5,
+            "ID": 4,
             "Selection Component": {},
             "Transform Component": {
                 "Translate": [

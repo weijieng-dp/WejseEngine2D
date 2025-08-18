@@ -8,17 +8,16 @@
 
 
 
-void generateCodeForClass(std::vector<std::pair<std::string, std::vector<std::string>>> var)
+void generateCodeForClass(std::vector<std::pair<std::string, std::vector<std::string>>> var, std::vector<std::string> classdir)
 {
 	std::ofstream os("../ComponentLoader/ScriptLoader.cpp");
 
-	std::string stringtocopy;
 
 	if (!os.is_open())
 	{
 		std::cerr << "error cannot open component Loader file" << std::endl;
 	}
-	stringtocopy = R"(
+	std::string stringtocopy = R"(
 #include "pch.h"
 #include "ScriptLoader.h"
 #include <rttr/registration>
@@ -28,8 +27,8 @@ void generateCodeForClass(std::vector<std::pair<std::string, std::vector<std::st
 
 	os << stringtocopy;
 
-	for (std::pair<std::string, std::vector<std::string>> value : var)
-		os << "#include \"" << value.first << ".h\"\n";
+	for (std::string const& value : classdir)
+		os << "#include \"" << value << "\"\n";
 
 
 	stringtocopy = R"(
@@ -101,7 +100,7 @@ void ScanDirectoryForClasses(const char* directoryPath)
 
 
 	std::vector<std::pair<std::string, std::vector<std::string>>> ClassesAndProperties;
-
+	std::vector<std::string> classdirVec;
 	for (const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath))
 	{
 		if (entry.is_regular_file() && entry.path().extension() == ".h")
@@ -116,6 +115,7 @@ void ScanDirectoryForClasses(const char* directoryPath)
 			std::cout << "Opened: " << entry.path() << std::endl;
 			std::vector<std::string>Properties;
 			std::string className;
+			std::string classDir;
 
 			while (std::getline(file, line))
 			{
@@ -146,7 +146,7 @@ void ScanDirectoryForClasses(const char* directoryPath)
 					// Extract class name from regex match className = match[1];
 					std::cout << "Found class: " << className << " in " << entry.path() << "\n";
 					className = match[1];
-
+					classDir = entry.path().string();
 					// Generate code for the class (this part can use RTTR or your own logic)
 				}
 
@@ -155,13 +155,15 @@ void ScanDirectoryForClasses(const char* directoryPath)
 			if (!className.empty())
 			{
 				ClassesAndProperties.emplace_back(std::make_pair(className, Properties));
+				classdirVec.emplace_back(classDir);
 				className.clear();
+				classDir.clear();
 			}
 		}
 	}
 	if (ClassesAndProperties.empty())
 		return;
-	generateCodeForClass(ClassesAndProperties);
+	generateCodeForClass(ClassesAndProperties,classdirVec);
 
 }
 

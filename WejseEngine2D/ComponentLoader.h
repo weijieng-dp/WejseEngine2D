@@ -2,7 +2,7 @@
 #include "Registry.h"
 
 #include "ComponentFile.h"
-
+#define RTTR_DLL
 #include <rttr/registration>
 #include <rttr/argument.h>
 

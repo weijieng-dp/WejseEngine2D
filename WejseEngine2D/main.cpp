@@ -125,18 +125,32 @@ int main()
 
 
 	Registry& registry = Registry::instance();
+	componentRegistry& cr = componentRegistry::instance();
+
 	ComponentInitialise();
 	renderInitialise();
 	meshRenderInitialisation();
 
+
 	if (!debug)
-		sceneManager.LoadScene("Assets/Scenes/Credit_pg1.txt");
+		sceneManager.LoadScene("Assets/Scenes/Credit_pg1 - Copy.txt");
 
 
 	while (!glfwWindowShouldClose(globalWindow))
 	{
+		glfwSetWindowTitle(globalWindow,std::to_string(1.f/WejseGetDT()).c_str());
 		updateDT(glfwGetTime());
-
+		if (glfwGetKey(globalWindow, GLFW_KEY_SPACE))
+		{
+			for (int i = 0; i < 1000; i++)
+			{
+				Registry::Entity ent = registry.createEntity();
+				registry.addComponent<TransformComponent>(ent, {});
+				cr.createComponent("Selection Component", ent);
+				std::cout << ent << std::endl;
+			}
+			
+		}
 #ifdef _DEBUG
 		if (GetKeyTriggered(GLFW_KEY_EQUAL) && glfwGetKey(globalWindow, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS) {
 			auto Cameraent = registry.getEntitiesWithComponent<CameraComponent>();
@@ -218,7 +232,9 @@ int main()
 
 
 			UpdateTransform(registry);
-
+			//physics update system
+			//collider update system
+			// 
 			//rendering
 			meshRenderRender();
 			renderUpdate(registry);
@@ -379,6 +395,7 @@ void recompilescript()
 		"msbuild ../ComponentLoader/ComponentLoader.vcxproj  /p:TargetName=ComponentLoader_temp /p:Configuration=Debug /p:Platform=x64 /p:OutDir=\"..//x64//Debug//\" /m";
 
 	int result = system(compileCmd.c_str());
+
 	if (result == 0)
 	{
 		ScriptDestroy myFunc2 = (ScriptDestroy)GetProcAddress(hDll, "ScriptDestroy");

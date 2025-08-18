@@ -87,6 +87,7 @@ void Registry::clearAllComponentStorages()
 	for (auto it = componentStorages.begin(); it != componentStorages.end(); )
 	{
 		// Store the current iterator for safe erasure
+		it->second->clear();
 		it = componentStorages.erase(it);  // Erase returns the next iterator
 	}
 
@@ -130,7 +131,9 @@ rttr::instance Registry::getComponentsRTTR(Registry::Entity entity, rttr::type t
 
 void Registry::removeComponent(Registry::Entity ent, rttr::type type)
 {
+
 	auto it = componentStorages.find(type);
+	
 	if (it != componentStorages.end())
 	{
 		it->second->remove(ent);
